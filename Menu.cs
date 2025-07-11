@@ -16,8 +16,12 @@ namespace Swinburne_OOP_HD
         private FireBoy _fireBoy;
         private WaterGirl _waterGirl;
         private Rectangle _playButtonRect;
+        private bool _showLevelSelect = false;
+        private int _selectedLevelIndex = -1;
+        private LevelManager _levelManager;
+        private int _levelCount = 3; // Change as needed
 
-        public Menu() 
+        public Menu(LevelManager levelManager)
         {
             _background = SplashKit.LoadBitmap("MenuBackground", @"menu\345.png");
             _logo = SplashKit.LoadBitmap("Logo", @"menu\1.png");
@@ -32,30 +36,66 @@ namespace Swinburne_OOP_HD
 
             _fireBoy = new FireBoy();
             _waterGirl = new WaterGirl();
+            _levelManager = levelManager;
         }
 
         public void Draw(Window window)
         {
-            // Draw background
             _background.Draw(0, 0);
-            // Draw logo
             _logo.Draw(60, 50);
-            // Draw characters
-            
             _fireBoy.Idle.Sprite.Draw(50, 200);
             _waterGirl.Idle.Sprite.Draw(350, 250);
-
-            // Update animations
             _fireBoy.Idle.Sprite.UpdateAnimation();
             _waterGirl.Idle.Sprite.UpdateAnimation();
+
+            if (!_showLevelSelect)
+            {
+                SplashKit.DrawBitmap(_playButton, _playButtonRect.X, _playButtonRect.Y);
+            }
+            else
+            {
+                // Draw level selection
+                for (int i = 0; i < _levelCount; i++)
+                {
+                    string levelName = $"Level{i + 1}";
+                    string status = _levelManager.GetLevelStatus(levelName);
+                    string display = $"Level {i + 1}: {status}";
+                    SplashKit.DrawText(display, SplashKitSDK.Color.White, "Arial", 20, 180, 120 + i * 40);
+                }
+                SplashKit.DrawText("Click a level to play", SplashKitSDK.Color.Yellow, "Arial", 16, 200, 120 + _levelCount * 40);
+            }
         }
 
-        public void HandleInput(Window window)
+        public int HandleInput(Window window)
         {
-            if (SplashKit.BitmapButton(_playButton, _playButtonRect))
+            if (!_showLevelSelect)
             {
-                Console.WriteLine("Play button clicked!");
+                if (SplashKit.MouseClicked(MouseButton.LeftButton) && SplashKit.PointInRectangle(SplashKit.MousePosition(), _playButtonRect))
+                {
+                    _showLevelSelect = true;
+                }
             }
+            else
+            {
+                // Handle level selection
+                for (int i = 0; i < _levelCount; i++)
+                {
+                    int y = 120 + i * 40;
+                    Rectangle levelRect = new Rectangle() { X = 180, Y = y, Width = 300, Height = 30 };
+                    if (SplashKit.MouseClicked(MouseButton.LeftButton) && SplashKit.PointInRectangle(SplashKit.MousePosition(), levelRect))
+                    {
+                        _selectedLevelIndex = i;
+                        return _selectedLevelIndex;
+                    }
+                }
+            }
+            return -1;
+        }
+
+        public void Reset()
+        {
+            _showLevelSelect = false;
+            _selectedLevelIndex = -1;
         }
     }
 }

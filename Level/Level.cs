@@ -12,7 +12,7 @@ using DotTiled.Serialization.Tmx;
 
 namespace Swinburne_OOP_HD
 {
-    public class Level
+    public class Level : IDisposable
     {
         // Objects in the level
         private List<Character> _characters;
@@ -212,6 +212,10 @@ namespace Swinburne_OOP_HD
 
         private void DrawObjectLayer() 
         {
+            foreach (ExitDoor door in _exitDoors)
+            {
+                door.Draw();
+            }
             foreach (Character character in _characters)
             {
                 character.Draw();
@@ -221,12 +225,6 @@ namespace Swinburne_OOP_HD
             {
                 hazard.Draw();
             }
-
-            foreach (ExitDoor door in _exitDoors) 
-            {
-                door.Draw();
-            }
-
             foreach (Diamond diamond in _diamonds) 
             {
                 diamond.Draw();
@@ -353,5 +351,22 @@ namespace Swinburne_OOP_HD
         public uint[] MapData { get { return _mapData; } }
         public uint MapWidth { get { return _mapWidth; } }
         public uint MapHeight { get { return _mapHeight; } }
+
+        public void Dispose()
+        {
+            // Dispose bitmaps and clear lists
+            _background?.Free();
+            foreach (var tile in _tiles.Values)
+                tile?.Free();
+            _tiles.Clear();
+            _characters.Clear();
+            _hazards.Clear();
+            _exitDoors.Clear();
+            _diamonds.Clear();
+            _platforms.Clear();
+            _levers.Clear();
+            _buttons.Clear();
+            _boxes.Clear();
+        }
     }
 }
