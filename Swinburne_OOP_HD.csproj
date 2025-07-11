@@ -18,4 +18,12 @@
 		</Content>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Remove="Resources\json\qwe.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\json\qwe.json" />
+	</ItemGroup>
+
 </Project>

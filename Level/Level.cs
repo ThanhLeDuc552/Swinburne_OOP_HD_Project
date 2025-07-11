@@ -48,6 +48,8 @@ namespace Swinburne_OOP_HD
         private bool _fireExitReached;
         private bool _waterExitReached;
 
+        private SplashKitSDK.Timer _levelTimer;
+
         public Level(string tmxFilePath)
         {
             Loader loader = Loader.Default();
@@ -108,6 +110,9 @@ namespace Swinburne_OOP_HD
             
             // Background
             _background = new Bitmap("Background", (map.Layers[0] as ImageLayer).Image.Value.Source.Value);
+
+            _levelTimer = SplashKit.CreateTimer("LevelTimer");
+            SplashKit.StartTimer(_levelTimer);
 
             ProcessTile(map);
             ProcessObject();
@@ -313,6 +318,29 @@ namespace Swinburne_OOP_HD
             // Box interactions
             CollisionManager.CheckBoxInteractions();
             
+        }
+
+        public int CalculateScore(int allowedTimeSeconds = 40)
+        {
+            if (_gameOver)
+                return 0;
+
+            int score = 3;
+
+            // Check time
+            double elapsedSeconds = SplashKit.TimerTicks(_levelTimer) / 1000.0;
+            if (elapsedSeconds > allowedTimeSeconds)
+                score--;
+
+            // Check if all diamonds collected
+            if (_diamonds.Count > 0)
+                score--;
+
+            // Clamp score between 0 and 3
+            if (score < 0) score = 0;
+            if (score > 3) score = 3;
+
+            return score;
         }
 
         // Properties for game state

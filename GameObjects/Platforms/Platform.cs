@@ -17,6 +17,7 @@ namespace Swinburne_OOP_HD
         private string _activatorClass; // store the class of the activator
         private int _tileToMove; // number of tiles to move
         private bool _isActivated; // whether the platform is activated or not
+        public Vector2D PreviousPosition { get; set; }
 
         public Platform(DotTiled.Object obj, string platformSpritePath)
         {
@@ -38,6 +39,7 @@ namespace Swinburne_OOP_HD
             };
 
             InitializePlatform(platformSpritePath);
+            PreviousPosition = Position;
         }
 
         private void InitializePlatform(string platformSpritePath)

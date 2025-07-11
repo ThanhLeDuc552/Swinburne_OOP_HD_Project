@@ -5,20 +5,20 @@ namespace Swinburne_OOP_HD
 {
     public static class Physics 
     {
-        public static void ApplyGravity(Character character) 
+        public static void ApplyGravity(SolidObject obj) 
         {
             // Falling
-            if (!character.IsGrounded) 
+            if (!obj.IsGrounded) 
             {
-                character.Velocity = SplashKit.VectorTo(
-                    character.Velocity.X,
-                    character.Velocity.Y + GameConstants.GRAVITY_STRENGTH
+                obj.Velocity = SplashKit.VectorTo(
+                    obj.Velocity.X,
+                    obj.Velocity.Y + GameConstants.GRAVITY_STRENGTH
                 );
 
-                if (character.Velocity.Y > GameConstants.TERMINAL_VELOCITY) 
+                if (obj.Velocity.Y > GameConstants.TERMINAL_VELOCITY) 
                 {
-                    character.Velocity = SplashKit.VectorTo(
-                        character.Velocity.X,
+                    obj.Velocity = SplashKit.VectorTo(
+                        obj.Velocity.X,
                         GameConstants.TERMINAL_VELOCITY
                     );
                 }
@@ -38,16 +38,18 @@ namespace Swinburne_OOP_HD
             }
         }
 
-        public static bool CheckCollision(Character character, Rectangle other) 
+        public static bool CheckCollision(Character character, SolidObject other) 
         {
-            return SplashKit.RectanglesIntersect(character.GetAABB(), other);
+            return SplashKit.RectanglesIntersect(character.GetAABB(), other.GetAABB());
         }
 
-        public static void HandleTileCollision(Character character, Rectangle tileBounds) 
+        
+        public static void HandleTileCollision(Character character, SolidObject obj) 
         {
-            if (CheckCollision(character, tileBounds)) 
+            if (CheckCollision(character, obj)) 
             {
                 Rectangle playerAABB = character.GetAABB();
+                Rectangle tileBounds = obj.GetAABB();
                 
                 double overlapLeft = SplashKit.RectangleRight(playerAABB) - SplashKit.RectangleLeft(tileBounds);   // Player's right edge past platform's left edge
                 double overlapRight = SplashKit.RectangleRight(tileBounds) - SplashKit.RectangleLeft(playerAABB);   // Platform's right edge past player's left edge
@@ -115,6 +117,7 @@ namespace Swinburne_OOP_HD
                 }
             }
         }
+        
 
         public static void UpdateCharacter(Character character, Level level) 
         {
@@ -162,33 +165,39 @@ namespace Swinburne_OOP_HD
 
             // Move horizontally with collision checking
             MoveWithCollisionCheck(character, level, character.Velocity.X, 0);
-
             // Then move vertically with collision checking
             MoveWithCollisionCheck(character, level, 0, character.Velocity.Y);
         }
 
-        private static void MoveWithCollisionCheck(Character character, Level level, double deltaX, double deltaY)
+        public static void HandleCharacterSolidObjectCollision(Character character, SolidObject other)
+        {
+            ApplyGravity(character);
+            MoveWithCollisionCheck(character, other, character.Velocity.X, 0); // Horizontal
+            MoveWithCollisionCheck(character, other, 0, character.Velocity.Y); // Vertical
+        }
+
+        public static void MoveWithCollisionCheck<T>(T movingObject, Level level, double deltaX, double deltaY) where T : SolidObject
         {
             // If no movement, return early
             if (deltaX == 0 && deltaY == 0) return;
 
-            Vector2D originalPosition = character.Position;
+            Vector2D originalPosition = movingObject.Position;
             Vector2D targetPosition = SplashKit.VectorTo(
                 originalPosition.X + deltaX,
                 originalPosition.Y + deltaY
             );
 
             // Move to target position
-            character.Position = targetPosition;
+            movingObject.Position = targetPosition;
 
             // Check if the new position causes any collisions
-            if (HasAnyCollision(character, level))
+            if (HasAnyCollision(movingObject, level))
             {
                 // If collision detected, try to find the maximum safe movement
-                double safeDistance = FindMaxSafeDistance(character, level, originalPosition, deltaX, deltaY);
-                
+                double safeDistance = FindMaxSafeDistance(movingObject, level, originalPosition, deltaX, deltaY);
+
                 // Move to the safe position
-                character.Position = SplashKit.VectorTo(
+                movingObject.Position = SplashKit.VectorTo(
                     originalPosition.X + (deltaX * safeDistance),
                     originalPosition.Y + (deltaY * safeDistance)
                 );
@@ -196,41 +205,45 @@ namespace Swinburne_OOP_HD
                 // Stop velocity in the direction of collision
                 if (deltaX != 0)
                 {
-                    character.Velocity = SplashKit.VectorTo(0, character.Velocity.Y);
+                    movingObject.Velocity = SplashKit.VectorTo(0, movingObject.Velocity.Y);
                 }
                 if (deltaY != 0)
                 {
-                    character.Velocity = SplashKit.VectorTo(character.Velocity.X, 0);
+                    movingObject.Velocity = SplashKit.VectorTo(movingObject.Velocity.X, 0);
                     if (deltaY > 0) // Was falling down
                     {
-                        character.IsGrounded = true;
-                        character.CanJump = true;
+                        movingObject.IsGrounded = true;
+                        if (movingObject is Character character)
+                        {
+                            // Reset jump state for characters
+                            character.CanJump = true;
+                        }
                     }
                 }
             }
         }
 
-        private static bool HasAnyCollision(Character character, Level level)
+        private static bool HasAnyCollision<T>(T movingObject, Level level) where T : SolidObject
         {
-            Rectangle playerAABB = character.GetAABB();
+            Rectangle movingObjectAABB = movingObject.GetAABB();
 
-            int leftTile = (int)(SplashKit.RectangleLeft(playerAABB) / GameConstants.TILE_SIZE);
-            int rightTile = (int)(SplashKit.RectangleRight(playerAABB) / GameConstants.TILE_SIZE);
-            int topTile = (int)(SplashKit.RectangleTop(playerAABB) / GameConstants.TILE_SIZE);
-            int bottomTile = (int)(SplashKit.RectangleBottom(playerAABB) / GameConstants.TILE_SIZE);
+            int leftTile = (int)(SplashKit.RectangleLeft(movingObjectAABB) / GameConstants.TILE_SIZE);
+            int rightTile = (int)(SplashKit.RectangleRight(movingObjectAABB) / GameConstants.TILE_SIZE);
+            int topTile = (int)(SplashKit.RectangleTop(movingObjectAABB) / GameConstants.TILE_SIZE);
+            int bottomTile = (int)(SplashKit.RectangleBottom(movingObjectAABB) / GameConstants.TILE_SIZE);
 
-            for (int y = topTile; y <= bottomTile; y++) 
+            for (int y = topTile; y <= bottomTile; y++)
             {
-                for (int x = leftTile; x <= rightTile; x++) 
+                for (int x = leftTile; x <= rightTile; x++)
                 {
                     if (x >= 0 && x < level.MapWidth && y >= 0 && y < level.MapHeight)
                     {
                         int tileIndex = y * (int)level.MapWidth + x;
-                        
+
                         if (tileIndex >= 0 && tileIndex < level.MapData.Length)
                         {
                             uint tileGID = level.MapData[tileIndex];
-                            if (tileGID >= 1 && tileGID <= 7) 
+                            if (tileGID >= 1 && tileGID <= 7)
                             {
                                 Rectangle tileBounds = SplashKit.RectangleFrom(
                                     x * GameConstants.TILE_SIZE,
@@ -238,8 +251,8 @@ namespace Swinburne_OOP_HD
                                     GameConstants.TILE_SIZE,
                                     GameConstants.TILE_SIZE
                                 );
-                                
-                                if (CheckCollision(character, tileBounds))
+
+                                if (SplashKit.RectanglesIntersect(movingObject.GetAABB(), tileBounds))
                                 {
                                     return true;
                                 }
@@ -251,7 +264,87 @@ namespace Swinburne_OOP_HD
             return false;
         }
 
-        private static double FindMaxSafeDistance(Character character, Level level, Vector2D startPos, double deltaX, double deltaY)
+        private static double FindMaxSafeDistance<T>(T movingObject, Level level, Vector2D startPos, double deltaX, double deltaY) where T : SolidObject
+        {
+            double safeDistance = 0.0;
+            double step = 0.1; // Small step size for precision
+            double totalDistance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+
+            if (totalDistance == 0) return 0;
+
+            double stepX = (deltaX / totalDistance) * step;
+            double stepY = (deltaY / totalDistance) * step;
+            double currentDistance = 0;
+
+            while (currentDistance < totalDistance)
+            {
+                // Test position at current distance
+                movingObject.Position = SplashKit.VectorTo(
+                    startPos.X + (stepX * currentDistance / step),
+                    startPos.Y + (stepY * currentDistance / step)
+                );
+
+                if (HasAnyCollision(movingObject, level))
+                {
+                    break; // Found collision, use previous safe distance
+                }
+
+                safeDistance = currentDistance / totalDistance;
+                currentDistance += step;
+            }
+
+            return safeDistance;
+        }
+
+        public static void MoveWithCollisionCheck<T>(T movingObject, SolidObject otherObject, double deltaX, double deltaY) where T : SolidObject
+        {
+            // If no movement, return early
+            if (deltaX == 0 && deltaY == 0) return;
+
+            Vector2D originalPosition = movingObject.Position;
+            Vector2D targetPosition = SplashKit.VectorTo(
+                originalPosition.X + deltaX,
+                originalPosition.Y + deltaY
+            );
+
+            // Move to target position
+            movingObject.Position = targetPosition;
+
+            // Check if the new position causes any collisions
+            if (SplashKit.RectanglesIntersect(movingObject.GetAABB(), otherObject.GetAABB()))
+            {
+                // If collision detected, try to find the maximum safe movement
+                double safeDistance = FindMaxSafeDistance(movingObject, otherObject, originalPosition, deltaX, deltaY);
+                
+                // Move to the safe position
+                movingObject.Position = SplashKit.VectorTo(
+                    originalPosition.X + (deltaX * safeDistance),
+                    originalPosition.Y + (deltaY * safeDistance)
+                );
+
+                // Stop velocity in the direction of collision
+                if (deltaX != 0)
+                {
+                    movingObject.Velocity = SplashKit.VectorTo(0, movingObject.Velocity.Y);
+                }
+                if (deltaY != 0)
+                {
+                    movingObject.Velocity = SplashKit.VectorTo(movingObject.Velocity.X, 0);
+                    if (deltaY > 0) // Was falling down
+                    {
+                        movingObject.IsGrounded = true;
+
+                        if (movingObject is Character character)
+                        {
+                            // Reset jump state for characters
+                            character.CanJump = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        private static double FindMaxSafeDistance<T>(T movingObject, SolidObject otherObject, Vector2D startPos, double deltaX, double deltaY) where T : SolidObject
         {
             double safeDistance = 0.0;
             double step = 0.1; // Small step size for precision
@@ -266,12 +359,12 @@ namespace Swinburne_OOP_HD
             while (currentDistance < totalDistance)
             {
                 // Test position at current distance
-                character.Position = SplashKit.VectorTo(
+                movingObject.Position = SplashKit.VectorTo(
                     startPos.X + (stepX * currentDistance / step),
                     startPos.Y + (stepY * currentDistance / step)
                 );
 
-                if (HasAnyCollision(character, level))
+                if (SplashKit.RectanglesIntersect(movingObject.GetAABB(), otherObject.GetAABB()))
                 {
                     break; // Found collision, use previous safe distance
                 }
