@@ -1,0 +1,21 @@
+SplashKit Animation
+
+//Frames are declared with an f: and contain
+//the following comma separated values
+//ID,CELL,DUR,NEXT
+//
+//ID   - the frame index number
+//CELL - the cell of the bitmap to draw
+//DUR  - the number of times the frame need to be updated before moving to the next frame
+//NEXT - the index of the frame that follows the current frame
+
+//Animation frames for interacted state (plays from frame 0 to 21)
+f:[0-21],[0-21],80,21
+
+//Reverse animation frames for closing door (plays from frame 21 back to 0)
+f:[22-43],[21-0],80,0
+
+//Animation Identifiers
+
+i:Interacted,0
+i:UndoInteract,22

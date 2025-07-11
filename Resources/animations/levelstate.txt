@@ -1,0 +1,9 @@
+SplashKit Animation
+
+f:0,0,100,0
+f:1,1,100,1
+f:2,2,100,2
+
+i:incomplete,0
+i:normal,1
+i:good,2

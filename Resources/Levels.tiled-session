@@ -1,0 +1,84 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "ExitDoors.tsx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "Blocks.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "Bricks.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "C:/Users/leduc/Desktop/maps/Objects.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/leduc/Desktop/maps/Water.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/leduc/Desktop/maps/level1.tmx": {
+            "scale": 1.0671232876712329,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 402.0154043645699,
+                "y": 472.2978177150193
+            }
+        },
+        "C:/Users/leduc/Desktop/maps/random.tsx": {
+            "scaleInDock": 1
+        },
+        "ExitDoors.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Level1.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 448,
+                "y": 304.6666666666667
+            }
+        },
+        "Liquids.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.imagePath": "C:/Users/leduc/Desktop/Swinburne-OOP-HD/Resources/images/tiles/objects/gates/FinishGirl",
+    "map.height": 29,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 39,
+    "openFiles": [
+        "Blocks.tsx",
+        "Level1.tmx",
+        "Liquids.tsx",
+        "Bricks.tsx",
+        "ExitDoors.tsx"
+    ],
+    "project": "Levels.tiled-project",
+    "recentFiles": [
+        "Blocks.tsx",
+        "Level1.tmx",
+        "Liquids.tsx",
+        "Bricks.tsx",
+        "ExitDoors.tsx",
+        "C:/Users/leduc/Desktop/maps/level1.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    },
+    "tileset.type": 1
+}

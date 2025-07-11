@@ -1,0 +1,5 @@
+SplashKit Animation
+
+f:[0-39],[0-39],50,0
+
+i:start,0

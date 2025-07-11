@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="39" height="29" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="46">
+ <tileset firstgid="1" source="Bricks.tsx"/>
+ <tileset firstgid="8" source="ExitDoors.tsx"/>
+ <tileset firstgid="31" source="Liquids.tsx"/>
+ <tileset firstgid="62" source="Diamond.tsx"/>
+ <tileset firstgid="65" source="Lever.tsx"/>
+ <tileset firstgid="67" source="Platform.tsx"/>
+ <imagelayer id="3" name="Image Layer 1">
+  <image source="images/background/913.png" width="640" height="480"/>
+ </imagelayer>
+ <layer id="1" name="Tile Layer 1" width="39" height="29">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1610612743,1,1,1,1,7,0,0,0,0,0,0,0,0,0,0,0,1610612743,1,1,1,7,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,3221225479,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,7,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,7,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3221225479,1,1,1,1,1,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3221225479,1,1,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3221225479,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3221225479,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3221225479,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3221225479,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,3221225479,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3221225479,1,2684354567,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1610612743,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <objectgroup id="2" name="Object Layer 1">
+  <object id="1" name="StartPosFire" type="StartPos" x="48.803" y="372.509">
+   <properties>
+    <property name="type" value="fire"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="2" name="StartPosWater" type="StartPos" x="42.182" y="429.554">
+   <properties>
+    <property name="type" value="water"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="6" name="ExitDoorFire" type="ExitDoor" gid="8" x="501.627" y="109.656" width="49.2279" height="81.5013">
+   <properties>
+    <property name="type" value="fire"/>
+   </properties>
+  </object>
+  <object id="7" name="ExitDoorWater" type="ExitDoor" gid="30" x="551.018" y="110.656" width="49.2279" height="82.4785">
+   <properties>
+    <property name="type" value="water"/>
+   </properties>
+  </object>
+  <object id="8" name="MudHazard" type="Hazard" gid="31" x="463.383" y="457.974" width="22" height="13"/>
+  <object id="11" name="LavaHazard" type="Hazard" gid="46" x="181.667" y="344.083" width="20" height="13"/>
+  <object id="34" name="WaterHazard" type="Hazard" gid="61" x="333.545" y="450.917" width="22" height="13"/>
+  <object id="20" name="BlueDiamond" type="Diamond" gid="62" x="329.667" y="349.333" width="27" height="23">
+   <properties>
+    <property name="type" value="water"/>
+   </properties>
+  </object>
+  <object id="21" name="BlueDiamond" type="Diamond" gid="62" x="473" y="349.333" width="27" height="23">
+   <properties>
+    <property name="type" value="water"/>
+   </properties>
+  </object>
+  <object id="23" name="RedDiamond" type="Diamond" gid="63" x="329.333" y="270" width="28" height="23">
+   <properties>
+    <property name="type" value="fire"/>
+   </properties>
+  </object>
+  <object id="28" name="RedDiamond" type="Diamond" gid="63" x="408.667" y="271.333" width="28" height="23">
+   <properties>
+    <property name="type" value="fire"/>
+   </properties>
+  </object>
+  <object id="29" name="MudDiamond" type="Diamond" gid="64" x="323.667" y="111" width="34" height="29">
+   <properties>
+    <property name="type" value="special"/>
+   </properties>
+  </object>
+  <object id="35" name="LeverOld" type="Lever" gid="65" x="128.333" y="335.667" width="18" height="18">
+   <properties>
+    <property name="type" value="old"/>
+   </properties>
+  </object>
+  <object id="39" name="PlatformHorizontal" type="Platform" gid="67" x="544" y="207.75" width="64" height="16">
+   <properties>
+    <property name="activatorClass" value="Button"/>
+    <property name="direction" type="int" value="3"/>
+    <property name="tileToMove" type="int" value="4"/>
+    <property name="type" value="new"/>
+   </properties>
+  </object>
+  <object id="40" name="PlatformHorizontal" type="Platform" gid="67" x="16" y="256" width="64" height="16">
+   <properties>
+    <property name="activatorClass" value="Lever"/>
+    <property name="direction" type="int" value="3"/>
+    <property name="tileToMove" type="int" value="3"/>
+    <property name="type" value="old"/>
+   </properties>
+  </object>
+  <object id="41" name="Box" type="Box" gid="69" x="320.125" y="159.875" width="30" height="30"/>
+  <object id="42" name="Button" type="Button" gid="70" x="495.5" y="272.125" width="22" height="8">
+   <properties>
+    <property name="type" value="new"/>
+   </properties>
+  </object>
+  <object id="43" name="Button" type="Button" gid="70" x="492.455" y="192" width="22" height="8">
+   <properties>
+    <property name="type" value="new"/>
+   </properties>
+  </object>
+  <object id="44" name="WaterHazard" type="Hazard" gid="61" x="353.458" y="450.833" width="22" height="13"/>
+  <object id="45" name="WaterHazard" type="Hazard" gid="61" x="313.5" y="450.875" width="22" height="13"/>
+ </objectgroup>
+</map>

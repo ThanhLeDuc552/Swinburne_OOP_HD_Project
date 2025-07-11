@@ -1,0 +1,17 @@
+SplashKit Animation
+
+//Frames are declared with an f: and contain
+//the following comma separated values
+//ID,CELL,DUR,NEXT
+//
+//ID   - the frame index number
+//       this can be a range defined using [0-3] or [0,1,2,3] for example
+//CELL - the cell of the bitmap to draw
+//       this can be a range defined using [0-3] or [0,1,2,3] for example
+//DUR  - the number of times the frame need to be updated before moving to the next frame
+//NEXT - the index of the frame that follows the current frame
+
+f: [0-10], [0-10], 100, 0
+
+// -- Animation Identifiers --
+i:fall,0

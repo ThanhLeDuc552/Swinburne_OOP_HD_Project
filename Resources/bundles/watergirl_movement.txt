@@ -1,0 +1,10 @@
+BITMAP,WaterGirlIdle,watergirl_movement/watergirlidle.png,206,310,11,1,11
+BITMAP,WaterGirlFall,watergirl_movement/watergirlfall.png,202,475,11,1,11
+BITMAP,WaterGirlJump,watergirl_movement/watergirljump.png,206,303,11,1,11
+BITMAP,WaterGirlMoveRight,watergirl_movement/watergirlmoveright.png,375,287,8,1,8
+BITMAP,WaterGirlMoveLeft,watergirl_movement/watergirlmoveleft.png,375,287,8,1,8
+ANIM,WaterGirlIdle,watergirl_movement/watergirlidle.txt
+ANIM,WaterGirlFall,watergirl_movement/watergirlfall.txt
+ANIM,WaterGirlJump,watergirl_movement/watergirljump.txt
+ANIM,WaterGirlMoveRight,watergirl_movement/watergirlmoveright.txt
+ANIM,WaterGirlMoveLeft,watergirl_movement/watergirlmoveleft.txt

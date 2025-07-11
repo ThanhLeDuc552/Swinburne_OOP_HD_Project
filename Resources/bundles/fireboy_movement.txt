@@ -1,0 +1,10 @@
+BITMAP,FireBoyIdle,fireboy_movement/fireboyidle.png,214,410,5,1,5
+BITMAP,FireBoyFall,fireboy_movement/fireboyfall.png,214,410,5,1,5
+BITMAP,FireBoyJump,fireboy_movement/fireboyjump.png,214,336,5,1,5
+BITMAP,FireBoyMoveRight,fireboy_movement/fireboymoveright.png,341,277,8,1,8
+BITMAP,FireBoyMoveLeft,fireboy_movement/fireboymoveleft.png,341,277,8,1,8
+ANIM,FireBoyIdle,fireboy_movement/fireboyidle.txt
+ANIM,FireBoyFall,fireboy_movement/fireboyfall.txt
+ANIM,FireBoyJump,fireboy_movement/fireboyjump.txt
+ANIM,FireBoyMoveRight,fireboy_movement/fireboymoveright.txt
+ANIM,FireBoyMoveLeft,fireboy_movement/fireboymoveleft.txt

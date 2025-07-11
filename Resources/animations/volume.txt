@@ -1,0 +1,7 @@
+SplashKit Animation
+
+f:0,0,100,0
+f:1,1,100,1
+
+i:unmute,0
+i:mute,1

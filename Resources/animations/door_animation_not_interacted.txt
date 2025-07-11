@@ -1,0 +1,16 @@
+SplashKit Animation
+
+//Frames are declared with an f: and contain
+//the following comma separated values
+//ID,CELL,DUR,NEXT
+//
+//ID   - the frame index number
+//CELL - the cell of the bitmap to draw
+//DUR  - the number of times the frame need to be updated before moving to the next frame
+//NEXT - the index of the frame that follows the current frame
+
+//Animation frames for interacted state (plays from frame 0 to 21)
+f:0,0,80,0
+
+//nimation Identifiers
+i:NotInteracted,0

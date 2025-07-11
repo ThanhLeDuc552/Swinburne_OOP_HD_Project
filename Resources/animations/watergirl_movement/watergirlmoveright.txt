@@ -1,0 +1,5 @@
+SplashKit Animation
+
+f:[0-7],[0-7],100,0
+
+i:moveright,0
