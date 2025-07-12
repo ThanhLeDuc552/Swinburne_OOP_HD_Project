@@ -62,10 +62,5 @@ namespace Swinburne_OOP_HD
                 _button.Height
             );
         }
-
-        public override void ClearResource()
-        {
-            // Implement later
-        }
     }
 }

@@ -83,9 +83,8 @@ namespace Swinburne_OOP_HD
         {
             foreach (Platform platform in platforms)
             {
-                Physics.HandleTileCollision(character, platform);
-                Physicsbla.HandleTileCollision(character, platform);
-                
+                Physics.FixStandingOnObject(character, platform);
+                Physics.HandleObjectCollision(character, platform);
                 // sticky platform, fix later
             }
         }

@@ -10,7 +10,6 @@ namespace Swinburne_OOP_HD
     public abstract class InteractableObject : GameObject
     {
         private bool _isActivated;
-        private bool _isInRange;
         private Point2D _position;
         
         public bool IsActivated 
@@ -44,18 +43,6 @@ namespace Swinburne_OOP_HD
         /// <param name="character">The character to check</param>
         /// <returns>True if character is in range</returns>
         public abstract bool IsCharacterInRange(Character character);
-        
-        /// <summary>
-        /// Called when character enters interaction range
-        /// </summary>
-        /// <param name="character">The character entering range</param>
-        protected virtual void OnEnterRange(Character character) { }
-        
-        /// <summary>
-        /// Called when character exits interaction range
-        /// </summary>
-        /// <param name="character">The character exiting range</param>
-        protected virtual void OnExitRange(Character character) { }
         
         /// <summary>
         /// Updates the object state and handles range checking

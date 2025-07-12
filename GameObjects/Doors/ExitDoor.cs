@@ -8,7 +8,7 @@ using DotTiled;
 
 namespace Swinburne_OOP_HD
 {
-    public class ExitDoor : InteractableObject
+    public abstract class ExitDoor : InteractableObject
     {
         protected ActionResource _doorInteracted;
         protected ActionResource _doorNotInteracted;
@@ -130,22 +130,5 @@ namespace Swinburne_OOP_HD
         {
             // Override in derived classes if needed for specific door update logic
         }
-
-        public override void ClearResource()
-        {
-            // Implement later
-        }
-
-        /// <summary>
-        /// Called when the door opens - override in derived classes for specific behavior
-        /// </summary>
-        /// <param name="character">The character that opened the door</param>
-        public void OnDoorOpened(Character character) { }
-
-        /// <summary>
-        /// Called when the door closes - override in derived classes for specific behavior
-        /// </summary>
-        /// <param name="character">The character that was near the door</param>
-        public void OnDoorClosed(Character character) { }
     }
 } 

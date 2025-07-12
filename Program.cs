@@ -12,6 +12,4 @@ namespace Swinburne_OOP_HD
             gameStateManager.Run();
         }
     }
-
-
 }

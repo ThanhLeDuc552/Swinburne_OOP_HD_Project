@@ -3,7 +3,7 @@ using DotTiled;
 
 namespace Swinburne_OOP_HD
 {
-    public class Lever : InteractableObject
+    public abstract class Lever : InteractableObject
     {
         private ActionResource _lever;
         private SplashKitSDK.Timer _timer;
@@ -77,11 +77,6 @@ namespace Swinburne_OOP_HD
                 _lever.Sprite.Width,
                 _lever.Sprite.Height
             );
-        }
-
-        public override void ClearResource()
-        {
-            // Implement later
         }
 
         public void ResetTimer() 

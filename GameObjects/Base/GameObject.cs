@@ -27,6 +27,5 @@ namespace Swinburne_OOP_HD
         public abstract void Draw();
         public abstract void Update();
         public abstract Rectangle GetAABB();
-        public abstract void ClearResource();
     }
 }

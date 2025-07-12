@@ -19,7 +19,7 @@ namespace Swinburne_OOP_HD
         private bool _showLevelSelect = false;
         private int _selectedLevelIndex = -1;
         private LevelManager _levelManager;
-        private int _levelCount = 3; // Change as needed
+        private int _levelCount; // Change as needed
 
         public Menu(LevelManager levelManager)
         {
@@ -37,24 +37,25 @@ namespace Swinburne_OOP_HD
             _fireBoy = new FireBoy();
             _waterGirl = new WaterGirl();
             _levelManager = levelManager;
+            _levelCount = 2;
         }
 
         public void Draw(Window window)
         {
-            _background.Draw(0, 0);
-            _logo.Draw(60, 50);
-            _fireBoy.Idle.Sprite.Draw(50, 200);
-            _waterGirl.Idle.Sprite.Draw(350, 250);
-            _fireBoy.Idle.Sprite.UpdateAnimation();
-            _waterGirl.Idle.Sprite.UpdateAnimation();
-
             if (!_showLevelSelect)
             {
+                _background.Draw(0, 0);
+                _logo.Draw(60, 50);
+                _fireBoy.Idle.Sprite.Draw(50, 200);
+                _waterGirl.Idle.Sprite.Draw(350, 250);
+                _fireBoy.Idle.Sprite.UpdateAnimation();
+                _waterGirl.Idle.Sprite.UpdateAnimation();
                 SplashKit.DrawBitmap(_playButton, _playButtonRect.X, _playButtonRect.Y);
             }
             else
             {
                 // Draw level selection
+                SplashKit.ClearScreen(SplashKitSDK.Color.Black);
                 for (int i = 0; i < _levelCount; i++)
                 {
                     string levelName = $"Level{i + 1}";

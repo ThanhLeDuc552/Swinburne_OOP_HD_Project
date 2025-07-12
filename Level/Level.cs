@@ -356,8 +356,6 @@ namespace Swinburne_OOP_HD
         {
             // Dispose bitmaps and clear lists
             _background?.Free();
-            foreach (var tile in _tiles.Values)
-                tile?.Free();
             _tiles.Clear();
             _characters.Clear();
             _hazards.Clear();

@@ -8,7 +8,7 @@ using DotTiled;
 
 namespace Swinburne_OOP_HD
 {
-    public class Platform : SolidObject
+    public abstract class Platform : SolidObject
     {
         private Bitmap _platform;
         private Direction _direction; // direction of movement
@@ -67,11 +67,6 @@ namespace Swinburne_OOP_HD
         public override Rectangle GetAABB()
         {
             return SplashKit.RectangleFrom(Position.X, Position.Y, _platform.Width, _platform.Height);
-        }
-
-        public override void ClearResource()
-        {
-            // Implement later
         }
 
         public void Activate()

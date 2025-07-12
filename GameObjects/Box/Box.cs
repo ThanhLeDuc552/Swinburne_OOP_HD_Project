@@ -33,10 +33,5 @@ namespace Swinburne_OOP_HD
         {
             return SplashKit.RectangleFrom(Position.X, Position.Y, _box.Width, _box.Height);
         }
-
-        public override void ClearResource()
-        {
-            // Implement later
-        }
     }
 }

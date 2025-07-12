@@ -2,7 +2,7 @@ using SplashKitSDK;
 
 namespace Swinburne_OOP_HD 
 {
-    public class Diamond : InteractableObject
+    public abstract class Diamond : InteractableObject
     {
         private ActionResource _diamond;
         private bool _isSpecial;
@@ -72,11 +72,6 @@ namespace Swinburne_OOP_HD
                 _diamond.Sprite.Width, 
                 _diamond.Sprite.Height
             );
-        }
-
-        public override void ClearResource()
-        {
-            // Implement later
         }
 
 

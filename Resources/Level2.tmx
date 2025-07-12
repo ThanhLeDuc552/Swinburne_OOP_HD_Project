@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="39" height="29" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="57">
+ <tileset firstgid="1" source="Bricks.tsx"/>
+ <tileset firstgid="8" source="Liquids.tsx"/>
+ <tileset firstgid="39" source="Platform.tsx"/>
+ <tileset firstgid="43" source="ExitDoors.tsx"/>
+ <imagelayer id="2" name="Image Layer 1">
+  <image source="images/background/913.png" width="640" height="480"/>
+ </imagelayer>
+ <layer id="1" name="Tile Layer 1" width="39" height="29">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,7,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,7,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,1,0,0,1,1,1,1,1,1,
+1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,7,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1610612743,1,1,
+1,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,1610612743,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <objectgroup id="3" name="Object Layer 1">
+  <object id="5" name="PlatformVertical" type="Platform" gid="40" x="304.667" y="336" width="16" height="64">
+   <properties>
+    <property name="activatorClass" value="Button"/>
+    <property name="direction" type="int" value="2"/>
+    <property name="tileToMove" type="int" value="4"/>
+    <property name="type" value="old"/>
+   </properties>
+  </object>
+  <object id="7" name="LavaHazard" type="Hazard" gid="23" x="102.375" y="451.042" width="20" height="13"/>
+  <object id="8" name="LavaHazard" type="Hazard" gid="23" x="121.333" y="451.042" width="20" height="13"/>
+  <object id="9" name="LavaHazard" type="Hazard" gid="23" x="140.375" y="451" width="20" height="13"/>
+  <object id="10" name="LavaHazard" type="Hazard" gid="23" x="159.375" y="451" width="20" height="13"/>
+  <object id="11" name="LavaHazard" type="Hazard" gid="23" x="178.375" y="451" width="20" height="13"/>
+  <object id="12" name="LavaHazard" type="Hazard" gid="23" x="197.25" y="451" width="20" height="13"/>
+  <object id="13" name="WaterHazard" type="Hazard" gid="38" x="98.875" y="404" width="22" height="13"/>
+  <object id="14" name="WaterHazard" type="Hazard" gid="38" x="118.875" y="404" width="22" height="13"/>
+  <object id="15" name="WaterHazard" type="Hazard" gid="38" x="138.875" y="404" width="22" height="13"/>
+  <object id="16" name="WaterHazard" type="Hazard" gid="38" x="158.875" y="404" width="22" height="13"/>
+  <object id="17" name="WaterHazard" type="Hazard" gid="38" x="178.875" y="404" width="22" height="13"/>
+  <object id="18" name="WaterHazard" type="Hazard" gid="38" x="198.875" y="404" width="22" height="13"/>
+  <object id="19" name="WaterHazard" type="Hazard" gid="38" x="355.25" y="452.25" width="22" height="13"/>
+  <object id="20" name="WaterHazard" type="Hazard" gid="38" x="375.25" y="452.25" width="22" height="13"/>
+  <object id="21" name="WaterHazard" type="Hazard" gid="38" x="395.25" y="452.25" width="22" height="13"/>
+  <object id="22" name="WaterHazard" type="Hazard" gid="38" x="415.25" y="452.25" width="22" height="13"/>
+  <object id="23" name="WaterHazard" type="Hazard" gid="38" x="435.25" y="452.25" width="22" height="13"/>
+  <object id="24" name="WaterHazard" type="Hazard" gid="38" x="455.25" y="452.25" width="22" height="13"/>
+  <object id="25" name="LavaHazard" type="Hazard" gid="23" x="358.812" y="403.688" width="20" height="13"/>
+  <object id="26" name="LavaHazard" type="Hazard" gid="23" x="377.77" y="403.688" width="20" height="13"/>
+  <object id="27" name="LavaHazard" type="Hazard" gid="23" x="396.812" y="403.646" width="20" height="13"/>
+  <object id="28" name="LavaHazard" type="Hazard" gid="23" x="415.812" y="403.646" width="20" height="13"/>
+  <object id="29" name="LavaHazard" type="Hazard" gid="23" x="434.812" y="403.646" width="20" height="13"/>
+  <object id="30" name="LavaHazard" type="Hazard" gid="23" x="453.687" y="403.646" width="20" height="13"/>
+  <object id="31" name="PlatformHorizontal" type="Platform" gid="39" x="367.833" y="101.667" width="64" height="16">
+   <properties>
+    <property name="activatorClass" value="Button"/>
+    <property name="direction" type="int" value="0"/>
+    <property name="tileToMove" type="int" value="4"/>
+    <property name="type" value="new"/>
+   </properties>
+  </object>
+  <object id="32" name="Button" type="Button" gid="42" x="423" y="80" width="22" height="8">
+   <properties>
+    <property name="type" value="new"/>
+   </properties>
+  </object>
+  <object id="33" name="Button" type="Button" gid="42" x="192.5" y="80" width="22" height="8">
+   <properties>
+    <property name="type" value="new"/>
+   </properties>
+  </object>
+  <object id="35" name="Button" type="Button" gid="42" x="177" y="336" width="22" height="8">
+   <properties>
+    <property name="type" value="old"/>
+   </properties>
+  </object>
+  <object id="36" name="Button" type="Button" gid="42" x="417.5" y="335.5" width="22" height="8">
+   <properties>
+    <property name="type" value="old"/>
+   </properties>
+  </object>
+  <object id="39" name="MudHazard" type="Hazard" gid="8" x="131.341" y="262.091" width="22" height="13"/>
+  <object id="40" name="MudHazard" type="Hazard" gid="8" x="151.341" y="262.091" width="22" height="13"/>
+  <object id="41" name="MudHazard" type="Hazard" gid="8" x="171.386" y="262.023" width="22" height="13"/>
+  <object id="42" name="MudHazard" type="Hazard" gid="8" x="191.296" y="262.023" width="22" height="13"/>
+  <object id="43" name="MudHazard" type="Hazard" gid="8" x="211.205" y="262.023" width="22" height="13"/>
+  <object id="44" name="MudHazard" type="Hazard" gid="8" x="231.205" y="262.023" width="22" height="13"/>
+  <object id="45" name="MudHazard" type="Hazard" gid="8" x="370.932" y="261.92" width="22" height="13"/>
+  <object id="46" name="MudHazard" type="Hazard" gid="8" x="390.932" y="261.92" width="22" height="13"/>
+  <object id="47" name="MudHazard" type="Hazard" gid="8" x="410.914" y="261.977" width="22" height="13"/>
+  <object id="48" name="MudHazard" type="Hazard" gid="8" x="430.824" y="261.977" width="22" height="13"/>
+  <object id="49" name="MudHazard" type="Hazard" gid="8" x="450.733" y="261.977" width="22" height="13"/>
+  <object id="50" name="MudHazard" type="Hazard" gid="8" x="470.733" y="261.977" width="22" height="13"/>
+  <object id="51" name="StartPosFire" type="StartPos" x="50.621" y="418.955">
+   <properties>
+    <property name="type" value="fire"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="52" name="StartPosWater" type="StartPos" x="34.6667" y="419.333">
+   <properties>
+    <property name="type" value="water"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="53" name="ExitDoorFire" type="ExitDoor" gid="43" x="27.3572" y="79.7607" width="49.2279" height="81.5013">
+   <properties>
+    <property name="type" value="fire"/>
+   </properties>
+  </object>
+  <object id="54" name="ExitDoorWater" type="ExitDoor" gid="65" x="76.7482" y="79.7607" width="49.2279" height="82.4785">
+   <properties>
+    <property name="type" value="water"/>
+   </properties>
+  </object>
+  <object id="55" name="MudHazard" type="Hazard" gid="8" x="251.07" y="262.019" width="22" height="13"/>
+  <object id="56" name="MudHazard" type="Hazard" gid="8" x="350.957" y="261.927" width="22" height="13"/>
+ </objectgroup>
+</map>

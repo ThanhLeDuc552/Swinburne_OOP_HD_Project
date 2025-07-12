@@ -163,7 +163,7 @@ namespace Swinburne_OOP_HD
         }
 
         // Update animations based on current physics state and input
-        public void UpdateAnimation()
+        public override void Update()
         {
             // Determine animation based on physics state and input
             if (!IsGrounded && Velocity.Y > 0)
@@ -198,11 +198,6 @@ namespace Swinburne_OOP_HD
             }
         }
 
-        public override void Update() 
-        {
-            UpdateAnimation(); // Update animations based on physics state
-        }
-
         public override Vector2D Position // new to override the base Position property
         {
             get 
@@ -221,8 +216,6 @@ namespace Swinburne_OOP_HD
                 );
             }
         }
-
-        public override void ClearResource() { }
 
         public bool CanJump 
         {

@@ -8,7 +8,7 @@ using DotTiled;
 
 namespace Swinburne_OOP_HD
 {
-    public class Hazards : InteractableObject
+    public abstract class Hazards : InteractableObject
     {
         private ActionResource _hazard;
 
@@ -73,11 +73,6 @@ namespace Swinburne_OOP_HD
         {
             _hazard.Sprite.Draw(Position.X, Position.Y);
             _hazard.Sprite.UpdateAnimation();
-        }
-
-        public override void ClearResource()
-        {
-            // Implement later
         }
     }
 } 

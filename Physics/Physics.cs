@@ -25,6 +25,7 @@ namespace Swinburne_OOP_HD
             }
         }
 
+
         public static void Jump(Character character, bool jumpPressed) 
         {
             if (character.IsGrounded && character.CanJump && jumpPressed) 
@@ -38,15 +39,10 @@ namespace Swinburne_OOP_HD
             }
         }
 
-        public static bool CheckCollision(Character character, SolidObject other) 
-        {
-            return SplashKit.RectanglesIntersect(character.GetAABB(), other.GetAABB());
-        }
-
         
-        public static void HandleTileCollision(Character character, SolidObject obj) 
+        public static void FixStandingOnObject(Character character, SolidObject obj) 
         {
-            if (CheckCollision(character, obj)) 
+            if (SplashKit.RectanglesIntersect(character.GetAABB(), obj.GetAABB())) 
             {
                 Rectangle playerAABB = character.GetAABB();
                 Rectangle tileBounds = obj.GetAABB();
@@ -117,7 +113,53 @@ namespace Swinburne_OOP_HD
                 }
             }
         }
-        
+
+
+        public static void HandleObjectCollision(Character character, Platform platform)
+        {
+            // prevent phasing
+            if (SplashKit.RectanglesIntersect(character.GetAABB(), platform.GetAABB()))
+            {
+                character.Position = SplashKit.VectorTo(character.Position.X - character.Velocity.X, character.Position.Y - character.Velocity.Y);
+
+                // Horizontal movement
+                Vector2D originalPosition = character.Position;
+                Vector2D targetPosition = SplashKit.VectorTo(character.Position.X + character.Velocity.X, character.Position.Y);
+                character.Position = targetPosition;
+
+                if (SplashKit.RectanglesIntersect(character.GetAABB(), platform.GetAABB()))
+                {
+                    double safeDistanceX = FindMaxSafeDistance(character, platform, originalPosition, character.Velocity.X, 0);
+                    character.Position = SplashKit.VectorTo(originalPosition.X + (character.Velocity.X * safeDistanceX), originalPosition.Y);
+
+                    if (character.Velocity.X != 0) character.Velocity = SplashKit.VectorTo(0, character.Velocity.Y);
+                }
+
+                // Vertical movement
+                originalPosition = character.Position;
+                targetPosition = SplashKit.VectorTo(character.Position.X, character.Position.Y + character.Velocity.Y);
+                character.Position = targetPosition;
+
+                if (SplashKit.RectanglesIntersect(character.GetAABB(), platform.GetAABB()))
+                {
+                    double safeDistanceY = FindMaxSafeDistance(character, platform, originalPosition, 0, character.Velocity.Y);
+                    character.Position = SplashKit.VectorTo(originalPosition.X, originalPosition.Y + (character.Velocity.Y * safeDistanceY));
+
+                    if (character.Velocity.Y != 0)
+                    {
+                        double deltaY = character.Velocity.Y;
+                        character.Velocity = SplashKit.VectorTo(character.Velocity.X, 0);
+
+                        if (deltaY > 0) // Was falling down
+                        {
+                            character.IsGrounded = true;
+                            character.CanJump = true;
+                        }
+                    }
+                }
+            }
+        }
+
 
         public static void UpdateCharacter(Character character, Level level) 
         {
@@ -169,12 +211,6 @@ namespace Swinburne_OOP_HD
             MoveWithCollisionCheck(character, level, 0, character.Velocity.Y);
         }
 
-        public static void HandleCharacterSolidObjectCollision(Character character, SolidObject other)
-        {
-            ApplyGravity(character);
-            MoveWithCollisionCheck(character, other, character.Velocity.X, 0); // Horizontal
-            MoveWithCollisionCheck(character, other, 0, character.Velocity.Y); // Vertical
-        }
 
         public static void MoveWithCollisionCheck<T>(T movingObject, Level level, double deltaX, double deltaY) where T : SolidObject
         {
@@ -223,6 +259,7 @@ namespace Swinburne_OOP_HD
             }
         }
 
+
         private static bool HasAnyCollision<T>(T movingObject, Level level) where T : SolidObject
         {
             Rectangle movingObjectAABB = movingObject.GetAABB();
@@ -264,6 +301,7 @@ namespace Swinburne_OOP_HD
             return false;
         }
 
+
         private static double FindMaxSafeDistance<T>(T movingObject, Level level, Vector2D startPos, double deltaX, double deltaY) where T : SolidObject
         {
             double safeDistance = 0.0;
@@ -296,7 +334,8 @@ namespace Swinburne_OOP_HD
             return safeDistance;
         }
 
-        public static void MoveWithCollisionCheck<T>(T movingObject, SolidObject otherObject, double deltaX, double deltaY) where T : SolidObject
+
+        private static void MoveWithCollisionCheck<T>(T movingObject, SolidObject otherObject, double deltaX, double deltaY) where T : SolidObject
         {
             // If no movement, return early
             if (deltaX == 0 && deltaY == 0) return;
@@ -343,6 +382,7 @@ namespace Swinburne_OOP_HD
                 }
             }
         }
+
 
         private static double FindMaxSafeDistance<T>(T movingObject, SolidObject otherObject, Vector2D startPos, double deltaX, double deltaY) where T : SolidObject
         {
