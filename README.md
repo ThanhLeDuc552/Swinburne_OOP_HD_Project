@@ -16,8 +16,9 @@ This is a C# implementation of a **FireBoy and WaterGirl** puzzle platformer gam
 
 The program follows **Object-Oriented Programming** principles with clear separation of concerns:
 
-- **Character System**: Abstract base class with concrete implementations
-- **Game Object Hierarchy**: Base classes for interactive and non-interactive objects
+- **State Management System**: Game states for menu, playing, and game over
+- **Character System**: Abstract base class inheriting from SolidObject
+- **Game Object Hierarchy**: Separate hierarchies for solid and interactable objects
 - **Factory Pattern**: For dynamic object creation from level data
 - **Physics Engine**: Static class handling movement and collision detection
 - **Level Management**: TMX file parsing and game state management
@@ -25,276 +26,198 @@ The program follows **Object-Oriented Programming** principles with clear separa
 
 ---
 
-## Detailed Class Documentation
+## Core Class Structure
 
-### 📁 **Core Game Classes**
+### 📁 **Game State Management**
 
-#### `Program.cs`
-**Purpose**: Application entry point and main game loop
-- **Key Responsibilities**:
-  - Window creation (624x464 resolution)
-  - Level loading from TMX files
-  - Character instantiation and positioning
-  - Main game loop execution with update/render cycle
-  - End game state handling (Game Over/Level Complete)
-- **Game Loop Flow**:
-  1. Process input events
-  2. Update character physics and animations
-  3. Check all collision types (hazards, doors, diamonds)
-  4. Render all game objects
-  5. Handle win/lose conditions
+#### `GameStateManager`
+**Purpose**: Manages different game states and transitions
+- **State Stack**: Maintains a stack of game states for easy transitions
+- **Window Management**: Handles the main game window
+- **Menu Integration**: Contains menu and level manager references
 
-#### `GameConstants.cs`
-**Purpose**: Central configuration for game physics and rendering
-- **Key Constants**:
-  - `SPRITE_SCALE`: 0.1f (10% of original sprite size)
-  - `GRAVITY_STRENGTH`: 0.001f (downward acceleration)
-  - `JUMP_FORCE`: -0.31f (upward velocity for jumping)
-  - `MOVE_SPEED`: 0.1f (horizontal movement speed)
-  - `FRICTION`: 0.85f (deceleration factor)
-  - `TERMINAL_VELOCITY`: 15.0f (maximum falling speed)
-  - `TILE_SIZE`: 16.0 pixels
+#### `IGameState` (Interface)
+**Purpose**: Contract for all game states
+- **Methods**: `Update()`, `Draw()`, `HandleInput()`
 
-### 📁 **Character System**
-
-#### `Character.cs` (Abstract Base Class)
-**Purpose**: Base class for all playable characters with common functionality
-- **Key Features**:
-  - **Animation System**: Multiple `ActionResource` objects for different states (idle, move left/right, jump, fall)
-  - **Physics Properties**: Position, velocity, grounded state, collision dimensions
-  - **Collision Detection**: AABB bounding box calculation with hair height consideration
-  - **Sprite Management**: Dynamic sprite offset calculation for consistent foot positioning
-  - **Input Abstraction**: Abstract methods for input handling (implemented by derived classes)
-- **Animation Logic**:
-  - Automatically switches between animations based on physics state
-  - Considers horizontal input during airborne movement
-  - Handles sprite alignment for consistent character positioning
-- **Collision System**: 
-  - Uses adjusted bounding box (excludes hair height)
-  - Calculates half-width/height for precise collision detection
-
-#### `FireBoy.cs`
-**Purpose**: Concrete implementation of the fire character
-- **Controls**: WASD keys (A=left, D=right, W=jump)
-- **Element Type**: "fire" (immune to lava hazards)
-- **Resource Bundle**: "fireboy_movement.txt"
-- **Unique Traits**: Can safely traverse lava but dies in water
-
-#### `WaterGirl.cs`
-**Purpose**: Concrete implementation of the water character
-- **Controls**: Arrow keys (Left/Right arrows, Up=jump)
-- **Element Type**: "water" (immune to water hazards)
-- **Resource Bundle**: "watergirl_movement.txt"
-- **Unique Traits**: Can safely traverse water but dies in lava
-
-### 📁 **Physics Engine**
-
-#### `Physics.cs` (Static Class)
-**Purpose**: Handles all character movement, gravity, and collision resolution
-- **Core Systems**:
-  - **Gravity Application**: Continuous downward acceleration with terminal velocity
-  - **Jump Mechanics**: Ground-state validation and velocity-based jumping
-  - **Platform Collision**: Tile-based collision detection with directional resolution
-  - **Movement Integration**: Smooth movement with collision-aware position updates
-- **Collision Resolution Algorithm**:
-  1. Calculate tile grid coordinates from character AABB
-  2. Check each tile in the character's vicinity
-  3. Determine collision direction using minimum overlap calculation
-  4. Apply positional correction and velocity adjustment
-  5. Update grounded state and jump availability
-- **Advanced Features**:
-  - **Safe Distance Calculation**: Prevents clipping through walls
-  - **Predictive Collision**: Tests movement before applying position changes
-  - **Directional Velocity Stopping**: Stops movement only in collision direction
+#### State Implementations
+- **`MenuState`**: Handles menu navigation and level selection
+- **`PlayingState`**: Manages active gameplay with pause functionality
+- **`GameOverState`**: Displays end game results and scoring
 
 ### 📁 **Game Object Hierarchy**
 
-#### `GameObject.cs` (Abstract Base Class)
+#### Core Base Classes
+
+#### `GameObject` (Abstract Base Class)
 **Purpose**: Foundation for all objects in the game world
-- **Core Properties**: Position, Name
-- **Abstract Methods**: Draw(), Update()
-- **Design Pattern**: Template method pattern for consistent object behavior
+- **Properties**: Name, Type
+- **Abstract Methods**: Draw(), Update(), GetAABB()
 
-#### `InteractableObject.cs` (Abstract Class, extends GameObject)
-**Purpose**: Base for objects that characters can interact with
-- **Interaction System**:
-  - `CanInteract()`: Determines if interaction is possible
-  - `IsCharacterInRange()`: Checks proximity for interaction
-  - `Interact()`: Handles interaction logic
-- **State Management**: Activation status and range tracking
-- **Event Hooks**: OnEnterRange() and OnExitRange() for derived classes
+#### `SolidObject` (Abstract, extends GameObject)
+**Purpose**: Objects with physical properties affected by physics
+- **Properties**: Position, Velocity, IsGrounded
+- **Used by**: Characters, Boxes, Platforms
 
-### 📁 **Hazard System**
+#### `InteractableObject` (Abstract, extends GameObject)
+**Purpose**: Objects that characters can interact with
+- **Properties**: IsActivated, Position
+- **Abstract Methods**: Interact(), CanInteract(), IsCharacterInRange()
 
-#### `Hazards.cs` (Abstract Class, extends InteractableObject)
-**Purpose**: Base class for all environmental dangers
-- **Animation System**: Liquid animation with 15-frame cycles
-- **Immunity Logic**: Characters are immune to hazards of their own element
-- **Collision Detection**: Sprite-based AABB intersection
-- **Resource Management**: Automatic sprite scaling and animation handling
-- **Derived Classes**:
-  - `LavaHazard`: Deadly to WaterGirl, safe for FireBoy
-  - `WaterHazard`: Deadly to FireBoy, safe for WaterGirl  
-  - `MudHazard`: Deadly to both characters
+### 📁 **Character System**
 
-### 📁 **Exit Door System**
+#### `Character` (Abstract, extends SolidObject)
+**Purpose**: Base class for all playable characters
+- **Animation System**: Multiple ActionResource objects for different states
+- **Physics Integration**: Inherits position, velocity, and grounded state from SolidObject
+- **Collision System**: AABB bounding box with hair height consideration
+- **Input Abstraction**: Abstract methods for movement and jumping
 
-#### `ExitDoor.cs` (Abstract Class, extends InteractableObject)
-**Purpose**: Base class for level completion mechanisms
-- **Dual State System**:
-  - **Interacted State**: Door opens when correct character enters
-  - **Not Interacted State**: Default closed state
-- **Animation Management**: Separate sprites for open/closed states
-- **Proximity Detection**: Automatic activation/deactivation based on character presence
-- **Event Callbacks**: `OnDoorOpened()` and `OnDoorClosed()` for specialized behavior
-- **Derived Classes**:
-  - `FireExitDoor`: Only activated by FireBoy
-  - `WaterExitDoor`: Only activated by WaterGirl
+#### Character Implementations
+- **`FireBoy`**: WASD controls, fire element immunity
+- **`WaterGirl`**: Arrow key controls, water element immunity
 
-### 📁 **Collectible System**
+### 📁 **Interactive Objects**
 
-#### `Diamond.cs` (Base Class, extends InteractableObject)
-**Purpose**: Collectible items with element-specific collection rules
-- **Animation System**: 40-frame diamond animation cycle
-- **Collection Logic**: 
-  - Element-specific diamonds can only be collected by matching character
-  - Special diamonds can be collected by any character
-- **Visual Feedback**: Different sprite sizes for normal vs. special diamonds
-- **Automatic Removal**: Handled by collision manager upon collection
-- **Derived Classes**:
-  - `BlueDiamond`: Collectible by WaterGirl only
-  - `RedDiamond`: Collectible by FireBoy only
-  - `MudDiamond`: Special diamond collectible by both
+#### Platform System
+- **`Platform`** (Abstract): Moving platforms with direction and activation logic
+- **Activation**: Controlled by buttons and levers
+
+#### Input Objects
+- **`Button`**: Pressure-activated switches
+- **`Lever`** (Abstract): Timer-based activation switches
+
+#### Environmental Hazards
+- **`Hazards`** (Abstract): Base for all dangerous elements
+- **Element Types**: Lava (deadly to WaterGirl), Water (deadly to FireBoy), Mud (deadly to both)
+
+#### Collectibles
+- **`Diamond`** (Abstract): Collectible gems with element restrictions
+- **Special Diamonds**: Can be collected by any character
+
+#### Exit System
+- **`ExitDoor`** (Abstract): Level completion mechanisms
+- **Dual State**: Open/closed animations based on character proximity
+- **Element Matching**: Each door only responds to its matching character
 
 ### 📁 **Factory Pattern Implementation**
 
-#### `IGameObjectFactory.cs`
-**Purpose**: Interface defining the factory contract
-- **Method**: `CreateGameObject(string name, Point2D position, DotTiled.Object objData)`
-- **Design Pattern**: Abstract Factory for extensible object creation
+#### `GameObjectFactoryManager`
+**Purpose**: Central registry for object creation
+- **Factory Registration**: Dictionary of factory implementations
+- **Object Creation**: Creates objects from TMX level data
 
-#### `GameObjectFactoryManager.cs`
-**Purpose**: Central registry for all object factories
-- **Registered Factories**:
-  - `HazardFactory`: Creates hazard objects
-  - `ExitDoorFactory`: Creates exit door objects
-  - `DiamondFactory`: Creates diamond objects
-- **Usage**: Level class uses this to create objects from TMX data
+#### Factory Implementations
+- **`BoxFactory`**: Creates box objects
+- **`DiamondFactory`**: Creates diamond collectibles
+- **`DoorFactory`**: Creates exit doors
+- **`HazardFactory`**: Creates environmental hazards
+- **`LeverFactory`**: Creates lever switches
+- **`PlatformFactory`**: Creates moving platforms
 
-#### `DiamondFactory.cs` (Example Implementation)
-**Purpose**: Factory for creating diamond objects
-- **Creation Strategy**: Dictionary-based mapping of names to creation functions
-- **Supported Types**: BlueDiamond, MudDiamond, RedDiamond
-- **Error Handling**: Throws exceptions for unknown diamond types
+### 📁 **Physics and Collision**
+
+#### `Physics` (Static Class)
+**Purpose**: Handles all physics simulation
+- **Character Updates**: Movement, gravity, jumping
+- **Collision Resolution**: AABB-based collision detection
+- **Movement Integration**: Velocity-based position updates
+
+#### `CollisionManager` (Static Class)
+**Purpose**: Centralized collision detection and response
+- **Hazard Collisions**: Immunity checking and game over logic
+- **Door Interactions**: Activation/deactivation based on proximity
+- **Diamond Collection**: Element-based collection validation
 
 ### 📁 **Level Management**
 
-#### `Level.cs`
-**Purpose**: Central level management and TMX file processing
-- **TMX Integration**:
-  - Parses Tiled map files using DotTiled library
-  - Processes multiple layer types (Object, Tile, Image)
-  - Extracts tileset information for tile rendering
-- **Object Management**:
-  - Maintains lists of hazards, exit doors, diamonds
-  - Handles character starting positions
-  - Manages game state (game over, level completion)
-- **Rendering Pipeline**:
-  1. Background image layer
-  2. Tile layer with rotation support
-  3. Object layer (hazards, doors, diamonds)
-- **Game State Logic**:
-  - Tracks individual exit door activation
-  - Requires both characters to reach exits for completion
-  - Handles immediate game over on hazard collision
+#### `Level`
+**Purpose**: Manages individual game levels
+- **TMX Integration**: Parses Tiled map files
+- **Object Management**: Contains all game objects and characters
+- **Game State**: Tracks completion and game over conditions
+- **Scoring**: Calculates level completion scores
 
-#### `LevelManager.cs`
-**Purpose**: Would handle multiple levels and progression (if implemented)
+#### `LevelManager`
+**Purpose**: Manages multiple levels and progression
+- **Level Storage**: Dictionary of loaded levels
+- **Score Tracking**: High score management
+- **Level Status**: Completion tracking
 
-### 📁 **Collision Management**
+### 📁 **Support Classes**
 
-#### `CollisionManager.cs` (Static Class)
-**Purpose**: Centralized collision detection and response system
-- **Hazard Collision System**:
-  - Checks character immunity based on element types
-  - Immediately triggers game over for deadly collisions
-  - Provides console feedback for collision events
-- **Exit Door Management**:
-  - Handles activation/deactivation based on character proximity
-  - Tracks completion state for both characters
-  - Manages win condition logic
-- **Diamond Collection**:
-  - Validates collection eligibility based on character type
-  - Safely removes collected diamonds from the level
-  - Prevents collection of incompatible diamond types
-
-### 📁 **Resource Management**
-
-#### `ActionResource.cs` (Struct)
+#### `ActionResource` (Struct)
 **Purpose**: Container for sprite animation resources
-- **Components**:
-  - `Bitmap`: The sprite image
-  - `AnimationScript`: Animation timing and frame data
-  - `Animation`: Runtime animation state
-  - `Sprite`: SplashKit sprite object with position and scale
-  - `DrawingOptions`: Rendering options for the sprite
-- **Usage**: Used extensively in Character and game object classes
+- **Components**: Bitmap, Animation, Sprite, DrawingOptions
+- **Usage**: Used extensively in Character and animated objects
 
-#### `StartPos.cs`
-**Purpose**: Manages character starting positions from level data
-- **Functionality**:
-  - Stores element type and position coordinates
-  - Automatically positions characters based on their element type
-  - Integrates with TMX object layer for level design flexibility
+#### `GameEvent` and `GameEventType`
+**Purpose**: Event system for game notifications
+- **Event Types**: Diamond collection, door opening, player death, level completion
+
+#### `GameConstants` (Static)
+**Purpose**: Central configuration for physics and rendering
+- **Physics**: Gravity, jump force, movement speed, friction
+- **Rendering**: Sprite scale, tile size
+
+#### Enumerations
+- **`Direction`**: Left, Right, Up, Down (for platform movement)
+- **`GameEventType`**: Event type definitions
 
 ---
 
-## Game Flow and Mechanics
+## Key Design Decisions
+
+### Inheritance Structure
+The game uses a **dual inheritance hierarchy**:
+1. **SolidObject**: For objects affected by physics (characters, boxes, platforms)
+2. **InteractableObject**: For objects that can be interacted with (buttons, levers, hazards, diamonds, doors)
+
+This allows for clean separation of concerns while avoiding multiple inheritance issues.
+
+### State Management
+The **GameStateManager** uses a stack-based approach for state transitions, allowing for:
+- Easy pause/resume functionality
+- Clean state transitions
+- Modular state implementations
+
+### Factory Pattern
+The **Abstract Factory pattern** enables:
+- Dynamic object creation from level data
+- Easy addition of new object types
+- Centralized object creation logic
+
+---
+
+## Game Flow
 
 ### Core Gameplay Loop
-1. **Character Input**: Process WASD (FireBoy) and Arrow Keys (WaterGirl)
-2. **Physics Update**: Apply gravity, handle jumping, process movement
-3. **Collision Detection**: Check platform collisions and resolve positions
-4. **Interaction Checks**: Test for hazard collisions, door interactions, diamond collection
-5. **Rendering**: Draw background, tiles, objects, and characters
-6. **State Management**: Check win/lose conditions
-
-### Winning Conditions
-- Both FireBoy and WaterGirl must reach their respective exit doors
-- Doors activate when the correct character enters the area
-- Doors deactivate if the character leaves the area
-- Level completes only when both doors are simultaneously active
-
-### Losing Conditions
-- Any character touches a hazard they're not immune to
-- Game immediately ends with "GAME OVER" message
+1. **Input Processing**: Handle character movement and interactions
+2. **Physics Update**: Apply gravity, movement, and collision detection
+3. **Interaction Checks**: Process hazard collisions, door interactions, diamond collection
+4. **Rendering**: Draw all game objects with proper layering
+5. **State Management**: Check win/lose conditions and handle state transitions
 
 ### Character Mechanics
-- **Elemental Immunity**: Characters are immune to hazards of their own element
-- **Cooperative Gameplay**: Both characters must survive and reach exits
+- **Elemental Immunity**: Characters are immune to hazards of their element
+- **Cooperative Gameplay**: Both characters must reach their respective exits
 - **Physics-Based Movement**: Realistic gravity, jumping, and momentum
-- **Precision Controls**: Designed for puzzle-solving and careful navigation
 
----
-
-## Design Patterns Used
-
-1. **Template Method Pattern**: GameObject hierarchy with abstract Draw/Update methods
-2. **Abstract Factory Pattern**: GameObjectFactoryManager with specific factory implementations
-3. **Strategy Pattern**: Character input handling through abstract methods
-4. **Observer Pattern**: Collision system with centralized event handling
-5. **State Pattern**: Door animation states and character action states
-6. **Facade Pattern**: Physics class providing simplified interface to complex collision logic
+### Level Completion
+- **Dual Exit Requirement**: Both characters must simultaneously be at their exits
+- **Scoring System**: Based on completion time and diamonds collected
+- **Progression Tracking**: Level completion status and high scores
 
 ---
 
 ## Technical Highlights
 
-- **Precise Collision Detection**: AABB-based system with minimum overlap resolution
-- **Smooth Animation System**: Frame-based animations with proper sprite alignment
-- **Modular Architecture**: Easy to extend with new character types, hazards, or objects
-- **Level Editor Integration**: Direct TMX file support for level design
-- **Resource Management**: Efficient sprite and animation resource handling
-- **Cross-Platform Compatibility**: Built on SplashKit for multi-platform support
+- **Clean Architecture**: Clear separation between solid objects and interactable objects
+- **State Management**: Robust state system for menu, gameplay, and game over
+- **Physics Integration**: Realistic physics simulation with AABB collision detection
+- **Animation System**: Comprehensive sprite animation with state-based transitions
+- **Level Editor Support**: Direct TMX file integration for level design
+- **Factory Pattern**: Extensible object creation system
+- **Event System**: Game event notifications for UI and scoring
 
-This architecture provides a solid foundation for a puzzle platformer game with room for expansion and modification while maintaining clean, maintainable code structure. 
+This architecture provides a solid, extensible foundation for a puzzle platformer game with clear object relationships and maintainable code structure.
