@@ -151,10 +151,6 @@ The program follows **Object-Oriented Programming** principles with clear separa
 - **Components**: Bitmap, Animation, Sprite, DrawingOptions
 - **Usage**: Used extensively in Character and animated objects
 
-#### `GameEvent` and `GameEventType`
-**Purpose**: Event system for game notifications
-- **Event Types**: Diamond collection, door opening, player death, level completion
-
 #### `GameConstants` (Static)
 **Purpose**: Central configuration for physics and rendering
 - **Physics**: Gravity, jump force, movement speed, friction
