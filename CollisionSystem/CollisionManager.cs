@@ -6,7 +6,9 @@ namespace Swinburne_OOP_HD
 {
     public class CollisionManager
     {
-        public static void CheckHazardCollisions(Character character, List<Hazards> hazards, ref bool gameOver)
+        public CollisionManager() { }
+
+        public void CheckHazardCollisions(Character character, List<Hazards> hazards, ref bool gameOver) // currently violates OOP principles
         {
             foreach (Hazards hazard in hazards)
             {
@@ -21,7 +23,7 @@ namespace Swinburne_OOP_HD
             }
         }
 
-        public static void CheckExitDoorInteractions(Character fireboy, Character watergirl, List<ExitDoor> exitDoors, ref bool fireExitReached, ref bool waterExitReached)
+        public void CheckExitDoorInteractions(Character fireboy, Character watergirl, List<ExitDoor> exitDoors, ref bool fireExitReached, ref bool waterExitReached) // currently violates OOP principles
         {
             foreach (ExitDoor door in exitDoors)
             {
@@ -57,7 +59,7 @@ namespace Swinburne_OOP_HD
             }
         }
 
-        public static void CheckDiamondInteraction(Character character, ref List<Diamond> diamonds) 
+        public List<Diamond> CheckDiamondInteraction(Character character, List<Diamond> diamonds) // currently violates OOP principles
         {
             List<Diamond> diamondsToRemove = new List<Diamond>();
             
@@ -72,24 +74,19 @@ namespace Swinburne_OOP_HD
                 }
             }
 
-            // Remove all collected diamonds
-            foreach (Diamond diamond in diamondsToRemove)
-            {
-                diamonds.Remove(diamond);
-            }
+            return diamondsToRemove;
         }
 
-        public static void CheckPlatformInteractions(Character character, List<Platform> platforms) 
+        public void CheckPlatformInteractions(Character character, List<Platform> platforms, PhysicsSystem physicsSystem) 
         {
             foreach (Platform platform in platforms)
             {
                 Physics.FixStandingOnObject(character, platform);
                 Physics.HandleObjectCollision(character, platform);
-                // sticky platform, fix later
             }
         }
 
-        public static void CheckLeverInteractions(Character character, List<Lever> levers, List<Platform> platforms) 
+        public void CheckLeverInteractions(Character character, List<Lever> levers, List<Platform> platforms) 
         {
             foreach (Lever lever in levers) 
             {
@@ -120,7 +117,7 @@ namespace Swinburne_OOP_HD
             }
         }
 
-        public static void CheckButtonInteractions(List<Character> characters, List<Button> buttons, List<Platform> platforms)
+        public void CheckButtonInteractions(List<Character> characters, List<Button> buttons, List<Platform> platforms)
         {
             foreach (Button button in buttons)
             {
@@ -170,6 +167,6 @@ namespace Swinburne_OOP_HD
             }
         }
 
-        public static void CheckBoxInteractions() { }
+        public void CheckBoxInteractions() { }
     }
 } 

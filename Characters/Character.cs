@@ -9,9 +9,6 @@ namespace Swinburne_OOP_HD
 {
     abstract public class Character : SolidObject
     {
-        // Ingame properties
-        private bool _isDead; // unused, but can be used for future character death logic
-
         // Action resources for different character actions
         private ActionResource _moveRight;
         private ActionResource _moveLeft;
@@ -50,8 +47,6 @@ namespace Swinburne_OOP_HD
             Name = name;
             Velocity = new Vector2D() { X = 0, Y = 0 };
             IsGrounded = false;
-
-            _isDead = false;
             _canJump = true;
 
             SplashKit.LoadResourceBundle(name, bundleFile);

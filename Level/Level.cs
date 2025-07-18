@@ -29,7 +29,6 @@ namespace Swinburne_OOP_HD
         // Layers in the level
         private ObjectLayer _objectLayer;
         private TileLayer _tileLayer;
-        private ImageLayer _imageLayer;
 
         // Map properties
         private uint _tileWidth;
@@ -39,16 +38,18 @@ namespace Swinburne_OOP_HD
         private Dictionary<uint, DrawingOptions> _rotationOptions;
         private uint[] _mapData;
 
-        // Characters positions
-        private List<StartPos> _startPos;
-
         // Game state tracking
         private bool _gameOver;
         private bool _levelCompleted;
         private bool _fireExitReached;
         private bool _waterExitReached;
 
+        // Timer for level score calculation
         private SplashKitSDK.Timer _levelTimer;
+
+        // Physics system entrance
+        private PhysicsSystem _physicsSystem;
+        private CollisionManager _collisionManager;
 
         public Level(string tmxFilePath)
         {
@@ -67,16 +68,12 @@ namespace Swinburne_OOP_HD
                 if (layer is ObjectLayer objectLayer) 
                 {
                     _objectLayer = objectLayer;
+                    continue;
                 }
 
                 if (layer is TileLayer tileLayer) 
                 {
                     _tileLayer = tileLayer;
-                }
-
-                if (layer is ImageLayer imageLayer) 
-                {
-                    _imageLayer = imageLayer;
                 }
             }
 
@@ -92,6 +89,7 @@ namespace Swinburne_OOP_HD
                 { 1610612736u, SplashKit.OptionRotateBmp(270) }
             };
 
+            // Ingame objects initialization
             _characters = new List<Character>()
             {
                 new FireBoy(),
@@ -101,7 +99,6 @@ namespace Swinburne_OOP_HD
             _hazards = new List<Hazards>();
             _exitDoors = new List<ExitDoor>();
             _diamonds = new List<Diamond>();
-            _startPos = new List<StartPos>();
             _platforms = new List<Platform>();
             _levers = new List<Lever>();
             _buttons = new List<Button>();
@@ -111,11 +108,15 @@ namespace Swinburne_OOP_HD
             // Background
             _background = new Bitmap("Background", (map.Layers[0] as ImageLayer).Image.Value.Source.Value);
 
-            _levelTimer = SplashKit.CreateTimer("LevelTimer");
-            SplashKit.StartTimer(_levelTimer);
+            _physicsSystem = new PhysicsSystem();
+            _collisionManager = new CollisionManager();
 
             ProcessTile(map);
             ProcessObject();
+
+            // Level timer
+            _levelTimer = SplashKit.CreateTimer("LevelTimer");
+            SplashKit.StartTimer(_levelTimer);
         }
 
         // Process objects in the level
@@ -126,6 +127,7 @@ namespace Swinburne_OOP_HD
             foreach (DotTiled.Object obj in _objectLayer.Objects) 
             {
                 Point2D position = new Point2D() { X = obj.X, Y = obj.Y };
+
                 if (obj.Type == "StartPos") 
                 {
                     foreach (Character character in _characters)
@@ -201,7 +203,7 @@ namespace Swinburne_OOP_HD
         public void Draw()
         {
             DrawImageLayer();
-            DrawTileLayer(_tileLayer);
+            DrawTileLayer();
             DrawObjectLayer();
         }
 
@@ -252,9 +254,9 @@ namespace Swinburne_OOP_HD
             }
         }
 
-        private void DrawTileLayer(TileLayer tileLayer)
+        private void DrawTileLayer()
         {
-            FlippingFlags[] flags = tileLayer.Data.Value.FlippingFlags.Value;
+            FlippingFlags[] flags = _tileLayer.Data.Value.FlippingFlags.Value;
 
             // Need to adjust to draw the tile-based objects
             for (uint i = 0; i < _mapHeight; i++)
@@ -264,7 +266,7 @@ namespace Swinburne_OOP_HD
                     uint gid = _mapData[i * _mapWidth + j];
                     if (_tiles.ContainsKey(gid))
                     {
-                        uint key = (uint)flags[i * tileLayer.Width + j];
+                        uint key = (uint)flags[i * _tileLayer.Width + j];
                         SplashKit.DrawBitmap(_tiles[gid], j * _tileWidth, i * _tileHeight, _rotationOptions[key]);
                     }
                 }
@@ -276,17 +278,17 @@ namespace Swinburne_OOP_HD
             foreach (Character character in _characters)
             {
                 character.Update();
-                Physics.UpdateCharacter(character, this);
+                _physicsSystem.UpdateCharacter(character, this);
             }
 
             // Hazard collisions
             foreach (Character character in _characters)
             {
-                CollisionManager.CheckHazardCollisions(character, _hazards, ref _gameOver);
+                _collisionManager.CheckHazardCollisions(character, _hazards, ref _gameOver);
             }
 
             // Exit door interactions
-            CollisionManager.CheckExitDoorInteractions(_characters[0], _characters[1], _exitDoors, ref _fireExitReached, ref _waterExitReached);
+            _collisionManager.CheckExitDoorInteractions(_characters[0], _characters[1], _exitDoors, ref _fireExitReached, ref _waterExitReached);
             if (_fireExitReached && _waterExitReached && !_levelCompleted)
             {
                 _levelCompleted = true;
@@ -295,26 +297,30 @@ namespace Swinburne_OOP_HD
             // Diamond interactions
             foreach (Character character in _characters)
             {
-                CollisionManager.CheckDiamondInteraction(character, ref _diamonds);
+                List<Diamond> diamondsToRemove = _collisionManager.CheckDiamondInteraction(character, _diamonds);
+                foreach (Diamond diamond in diamondsToRemove)
+                {
+                    _diamonds.Remove(diamond);
+                }
             }
 
             // Platform interactions
             foreach (Character character in _characters)
             {
-                CollisionManager.CheckPlatformInteractions(character, _platforms);
+                _collisionManager.CheckPlatformInteractions(character, _platforms, _physicsSystem);
             }
 
             // Lever interactions
             foreach (Character character in _characters)
             {
-                CollisionManager.CheckLeverInteractions(character, _levers, _platforms);
+                _collisionManager.CheckLeverInteractions(character, _levers, _platforms);
             }
 
             // Button interactions
-            CollisionManager.CheckButtonInteractions(_characters, _buttons, _platforms);
+            _collisionManager.CheckButtonInteractions(_characters, _buttons, _platforms);
 
             // Box interactions
-            CollisionManager.CheckBoxInteractions();
+            _collisionManager.CheckBoxInteractions();
             
         }
 

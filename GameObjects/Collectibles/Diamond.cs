@@ -20,7 +20,7 @@ namespace Swinburne_OOP_HD
             };
         }
 
-        protected virtual void InitializeDiamondResources(string spriteFilePath)
+        private void InitializeDiamondResources(string spriteFilePath)
         {
             _diamond = new ActionResource();
             _diamond.Name = Name;

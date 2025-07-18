@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using SplashKitSDK;
+using System.IO;
 
 namespace Swinburne_OOP_HD
 {
@@ -37,7 +38,12 @@ namespace Swinburne_OOP_HD
             _fireBoy = new FireBoy();
             _waterGirl = new WaterGirl();
             _levelManager = levelManager;
-            _levelCount = 2;
+            _levelCount = CountLevels();
+        }
+
+        private int CountLevels()
+        {
+            return Directory.GetFiles(".", "*.tmx").Length;
         }
 
         public void Draw(Window window)

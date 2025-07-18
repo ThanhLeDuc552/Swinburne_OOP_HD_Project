@@ -16,9 +16,9 @@ namespace Swinburne_OOP_HD
         public DrawingOptions Options { get; set; }
         public Sprite Sprite { get; set; }
 
-        public ActionResource(string name)
+        public ActionResource()
         {
-            Name = name;
+            Name = null;
             Bitmap = null;
             Script = null;
             Animation = null;

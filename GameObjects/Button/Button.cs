@@ -31,9 +31,7 @@ namespace Swinburne_OOP_HD
         
         public override bool IsCharacterInRange(Character character) 
         {
-            Rectangle characterAABB = character.GetAABB();
-            Rectangle buttonAABB = GetAABB();
-            return SplashKit.RectanglesIntersect(characterAABB, buttonAABB);
+            return SplashKit.RectanglesIntersect(character.GetAABB(), this.GetAABB());
         }
 
         public override bool CanInteract(Character character) 
