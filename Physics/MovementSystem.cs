@@ -16,6 +16,7 @@ namespace Swinburne_OOP_HD
             _collisionDetector = collisionDetector;
         }
 
+        // Moves on the maze with collision checking (the main physics)
         public void MoveWithCollisionCheck<T>(T obj, Level level, double deltaX, double deltaY) where T : SolidObject
         {
             if (deltaX == 0 && deltaY == 0) return;
@@ -38,6 +39,19 @@ namespace Swinburne_OOP_HD
                 );
 
                 HandleCollisionResponse(obj, deltaX, deltaY);
+            }
+        }
+
+        public void HandleJump(Character character, bool jumpPressed)
+        {
+            if (character.IsGrounded && character.CanJump && jumpPressed)
+            {
+                character.Velocity = SplashKit.VectorTo(
+                    character.Velocity.X,
+                    GameConstants.JUMP_FORCE
+                );
+                character.CanJump = false;
+                character.IsGrounded = false;
             }
         }
 

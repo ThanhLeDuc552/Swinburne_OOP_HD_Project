@@ -24,29 +24,16 @@ namespace Swinburne_OOP_HD
             set { _position = value; }
         }
         
-        /// <summary>
-        /// Handles interaction logic when a character enters the interaction zone
-        /// </summary>
-        /// <param name="character">The character attempting to interact</param>
+        // Handles interaction logic when a character enters the interaction zone
         public abstract void Interact(Character character);
         
-        /// <summary>
-        /// Checks if a character can interact with this object
-        /// </summary>
-        /// <param name="character">The character to check</param>
-        /// <returns>True if interaction is possible</returns>
+        // Checks if a character can interact with this object
         public abstract bool CanInteract(Character character);
         
-        /// <summary>
-        /// Checks if a character is within the interaction range
-        /// </summary>
-        /// <param name="character">The character to check</param>
-        /// <returns>True if character is in range</returns>
+        // Checks if a character is within the interaction range
         public abstract bool IsCharacterInRange(Character character);
         
-        /// <summary>
-        /// Updates the object state and handles range checking
-        /// </summary>
+        // Updates the object state and handles range checking
         public override void Update()
         {
             // Override in derived classes for specific update logic

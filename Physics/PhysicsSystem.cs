@@ -10,17 +10,13 @@ namespace Swinburne_OOP_HD
     public class PhysicsSystem
     {
         private readonly GravitySystem _gravitySystem;
-        private readonly JumpSystem _jumpSystem;
         private readonly MovementSystem _movementSystem;
-        private readonly CollisionResolver _collisionResolver;
 
         public PhysicsSystem()
         {
             var collisionDetector = new CollisionDetector();
             _gravitySystem = new GravitySystem();
-            _jumpSystem = new JumpSystem();
             _movementSystem = new MovementSystem(collisionDetector);
-            _collisionResolver = new CollisionResolver(collisionDetector);
         }
 
         public void UpdateCharacter(Character character, Level level)
@@ -30,16 +26,15 @@ namespace Swinburne_OOP_HD
 
             // Handle jumping
             bool jumpPressed = character.IsJumping();
-            _jumpSystem.HandleJump(character, jumpPressed);
+            _movementSystem.HandleJump(character, jumpPressed);
 
             // Reset grounded status
-            bool wasGrounded = character.IsGrounded;
             character.IsGrounded = false;
 
             // Apply gravity
             _gravitySystem.ApplyGravity(character);
 
-            // Move with collision checking
+            // Move with collision checking (for tiles collision checking)
             _movementSystem.MoveWithCollisionCheck(character, level, character.Velocity.X, 0);
             _movementSystem.MoveWithCollisionCheck(character, level, 0, character.Velocity.Y);
         }

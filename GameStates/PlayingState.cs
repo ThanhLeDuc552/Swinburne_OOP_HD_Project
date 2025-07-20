@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Swinburne_OOP_HD.PlayingState;
 
 namespace Swinburne_OOP_HD
 {
@@ -15,7 +14,6 @@ namespace Swinburne_OOP_HD
         private string _levelName;
         private int _finalScore;
         private bool _paused = false;
-
 
         public PlayingState(GameStateManager manager, int levelIndex) // this one creates the level
         {

@@ -6,9 +6,15 @@ namespace Swinburne_OOP_HD
 {
     public class CollisionManager
     {
-        public CollisionManager() { }
+        private readonly CollisionResolver _collisionResolver;
 
-        public void CheckHazardCollisions(Character character, List<Hazards> hazards, ref bool gameOver) // currently violates OOP principles
+        public CollisionManager() 
+        {
+            var collisionDetector = new CollisionDetector();
+            _collisionResolver = new CollisionResolver(collisionDetector);
+        }
+
+        public void CheckHazardCollisions(Character character, IReadOnlyList<Hazards> hazards, ref bool gameOver) // currently violates OOP principles
         {
             foreach (Hazards hazard in hazards)
             {
@@ -23,7 +29,7 @@ namespace Swinburne_OOP_HD
             }
         }
 
-        public void CheckExitDoorInteractions(Character fireboy, Character watergirl, List<ExitDoor> exitDoors, ref bool fireExitReached, ref bool waterExitReached) // currently violates OOP principles
+        public void CheckExitDoorInteractions(Character fireboy, Character watergirl, IReadOnlyList<ExitDoor> exitDoors, ref bool fireExitReached, ref bool waterExitReached) // currently violates OOP principles
         {
             foreach (ExitDoor door in exitDoors)
             {
@@ -59,7 +65,7 @@ namespace Swinburne_OOP_HD
             }
         }
 
-        public List<Diamond> CheckDiamondInteraction(Character character, List<Diamond> diamonds) // currently violates OOP principles
+        public List<Diamond> CheckDiamondInteraction(Character character, IReadOnlyList<Diamond> diamonds)
         {
             List<Diamond> diamondsToRemove = new List<Diamond>();
             
@@ -77,16 +83,16 @@ namespace Swinburne_OOP_HD
             return diamondsToRemove;
         }
 
-        public void CheckPlatformInteractions(Character character, List<Platform> platforms, PhysicsSystem physicsSystem) 
+        public void CheckPlatformInteractions(Character character, IReadOnlyList<Platform> platforms, PhysicsSystem physicsSystem) 
         {
             foreach (Platform platform in platforms)
             {
-                Physics.FixStandingOnObject(character, platform);
-                Physics.HandleObjectCollision(character, platform);
+                // Use the improved CollisionResolver instead of PhysicsExtensions
+                _collisionResolver.ResolveCollision(character, platform);
             }
         }
 
-        public void CheckLeverInteractions(Character character, List<Lever> levers, List<Platform> platforms) 
+        public void CheckLeverInteractions(Character character, IReadOnlyList<Lever> levers, IReadOnlyList<Platform> platforms) 
         {
             foreach (Lever lever in levers) 
             {
@@ -117,7 +123,7 @@ namespace Swinburne_OOP_HD
             }
         }
 
-        public void CheckButtonInteractions(List<Character> characters, List<Button> buttons, List<Platform> platforms)
+        public void CheckButtonInteractions(IReadOnlyList<Character> characters, IReadOnlyList<Button> buttons, IReadOnlyList<Platform> platforms)
         {
             foreach (Button button in buttons)
             {

@@ -6,6 +6,5 @@
 bin/
 lib/
 obj/
-
-.kiro/specs/codebase-refactoring/design.md
-/.kiro
+.kiro/
+Old Contents/

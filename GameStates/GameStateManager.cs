@@ -12,7 +12,6 @@ namespace Swinburne_OOP_HD
         private LevelManager _levelManager;
         private IGameState _currentState;
         private Menu _menu;
-        private int _levelCount = 3;
         public Window Window => _window;
         public LevelManager LevelManager => _levelManager;
         public Menu Menu => _menu;

@@ -13,7 +13,7 @@ namespace Swinburne_OOP_HD
         private Level _level;
         private string _levelName;
         private int _finalScore;
-        private int _timer = 120; // ~2 seconds at 60fps
+        private int _timer = 180;
 
         public GameOverState(GameStateManager manager, Level level, string levelName, int finalScore)
         {
