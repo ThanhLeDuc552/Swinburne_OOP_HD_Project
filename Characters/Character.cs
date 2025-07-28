@@ -7,7 +7,7 @@ using SplashKitSDK;
 
 namespace Swinburne_OOP_HD
 {
-    abstract public class Character : SolidObject
+    abstract public class Character : SolidObject // for future object extension
     {
         // Action resources for different character actions
         private ActionResource _moveRight;
@@ -26,19 +26,6 @@ namespace Swinburne_OOP_HD
         private double _collisionHeight;
         private double _halfWidth;
         private double _halfHeight;
-
-        private ActionResource CreateActionResource(string actionName, string charName)
-        {
-            ActionResource action = new ActionResource();
-            action.Name = actionName;
-            action.Bitmap = SplashKit.BitmapNamed(charName + actionName);
-            action.Script = SplashKit.AnimationScriptNamed(charName + actionName);
-            action.Animation = SplashKit.CreateAnimation(action.Script, actionName);
-            action.Options = SplashKit.OptionWithAnimation(action.Animation);
-            action.Sprite = SplashKit.CreateSprite(charName + actionName, action.Bitmap, action.Script);
-
-            return action;
-        }
 
         public Character(string bundleFile, string type, string name)
         {
@@ -61,30 +48,6 @@ namespace Swinburne_OOP_HD
             _collisionHeight = _idle.Sprite.Height * GameConstants.SPRITE_SCALE - _hairHeight;
         }
 
-        // Initialize actions for the character
-        private void InitActions(string name)
-        {
-            // MoveRight initialization
-            _moveRight = CreateActionResource("MoveRight", name);
-            _moveRight.Sprite.StartAnimation(0);
-
-            // MoveLeft initialization
-            _moveLeft = CreateActionResource("MoveLeft", name);
-            _moveLeft.Sprite.StartAnimation(0);
-
-            // Jump initialization
-            _jump = CreateActionResource("Jump", name);
-            _jump.Sprite.StartAnimation(0);
-
-            // Fall initialization
-            _fall = CreateActionResource("Fall", name);
-            _fall.Sprite.StartAnimation(0);
-
-            // Idle initialization
-            _idle = CreateActionResource("Idle", name);
-            _idle.Sprite.StartAnimation(0);
-        }
-
         // Draw the character
         public override void Draw()
         {
@@ -93,40 +56,6 @@ namespace Swinburne_OOP_HD
             // Draw with calculated offsets (feet aligned for sprites)
             _currAction.Sprite.Draw(offsetX + base.Position.X, offsetY + base.Position.Y);
             _currAction.Sprite.UpdateAnimation();
-        }
-
-        // Method to calculate sprite offsets based on action
-        private (double offsetX, double offsetY) CalculateSpriteOffset(ActionResource action)
-        {
-            // Extract center points
-            double idleCenterX = _idle.Sprite.SpriteCenterPoint.X;
-            double idleCenterY = _idle.Sprite.SpriteCenterPoint.Y;
-            double currCenterX = action.Sprite.SpriteCenterPoint.X;
-            double currCenterY = action.Sprite.SpriteCenterPoint.Y;
-
-            // Calculate height adjustments
-            double idleHeightAdj = _idle.Sprite.Height * GameConstants.SPRITE_SCALE;
-            double currHeightAdj = action.Sprite.Height * GameConstants.SPRITE_SCALE;
-
-            // Calculate width adjustments
-            double idleWidthAdj = _idle.Sprite.Width * GameConstants.SPRITE_SCALE;
-            double currWidthAdj = action.Sprite.Width * GameConstants.SPRITE_SCALE;
-
-            // Calculate base offsets
-            double offsetX = idleCenterX - currCenterX;
-            double offsetY = idleCenterY - currCenterY + (idleHeightAdj - currHeightAdj) / 2.0;
-
-            // Apply action-specific X adjustments
-            if (action.Name == _moveLeft.Name)
-            {
-                offsetX += (currWidthAdj - idleWidthAdj) / 2.0;
-            }
-            else if (action.Name == _moveRight.Name)
-            {
-                offsetX += (currWidthAdj - idleWidthAdj) / 2.0 - (currWidthAdj / 2.0 - GameConstants.FOOT_TO_FACE_SCALED_DISTANCE);
-            }
-
-            return (offsetX, offsetY);
         }
 
         // Get character's AABB bounding box for collision detection
@@ -243,6 +172,77 @@ namespace Swinburne_OOP_HD
         public ActionResource Idle // for main menu
         {
             get { return _idle; }
+        }
+
+        private ActionResource CreateActionResource(string actionName, string charName)
+        {
+            ActionResource action = new ActionResource();
+            action.Name = actionName;
+            action.Bitmap = SplashKit.BitmapNamed(charName + actionName);
+            action.Script = SplashKit.AnimationScriptNamed(charName + actionName);
+            action.Animation = SplashKit.CreateAnimation(action.Script, actionName);
+            action.Options = SplashKit.OptionWithAnimation(action.Animation);
+            action.Sprite = SplashKit.CreateSprite(charName + actionName, action.Bitmap, action.Script);
+
+            return action;
+        }
+
+        // Initialize actions for the character
+        private void InitActions(string name)
+        {
+            // MoveRight initialization
+            _moveRight = CreateActionResource("MoveRight", name);
+            _moveRight.Sprite.StartAnimation(0);
+
+            // MoveLeft initialization
+            _moveLeft = CreateActionResource("MoveLeft", name);
+            _moveLeft.Sprite.StartAnimation(0);
+
+            // Jump initialization
+            _jump = CreateActionResource("Jump", name);
+            _jump.Sprite.StartAnimation(0);
+
+            // Fall initialization
+            _fall = CreateActionResource("Fall", name);
+            _fall.Sprite.StartAnimation(0);
+
+            // Idle initialization
+            _idle = CreateActionResource("Idle", name);
+            _idle.Sprite.StartAnimation(0);
+        }
+
+        // Method to calculate sprite offsets based on action
+        private (double offsetX, double offsetY) CalculateSpriteOffset(ActionResource action)
+        {
+            // Extract center points
+            double idleCenterX = _idle.Sprite.SpriteCenterPoint.X;
+            double idleCenterY = _idle.Sprite.SpriteCenterPoint.Y;
+            double currCenterX = action.Sprite.SpriteCenterPoint.X;
+            double currCenterY = action.Sprite.SpriteCenterPoint.Y;
+
+            // Calculate height adjustments
+            double idleHeightAdj = _idle.Sprite.Height * GameConstants.SPRITE_SCALE;
+            double currHeightAdj = action.Sprite.Height * GameConstants.SPRITE_SCALE;
+
+            // Calculate width adjustments
+            double idleWidthAdj = _idle.Sprite.Width * GameConstants.SPRITE_SCALE;
+            double currWidthAdj = action.Sprite.Width * GameConstants.SPRITE_SCALE;
+
+            // Calculate base offsets
+            double offsetX = idleCenterX - currCenterX;
+            double offsetY = idleCenterY - currCenterY + (idleHeightAdj - currHeightAdj) / 2.0;
+
+            // Apply action-specific X adjustments
+            if (action.Name == _moveLeft.Name)
+            {
+                offsetX += (currWidthAdj - idleWidthAdj) / 2.0;
+            }
+            else if (action.Name == _moveRight.Name)
+            {
+                offsetX += (currWidthAdj - idleWidthAdj) / 2.0 - (currWidthAdj / 2.0 - GameConstants.FOOT_TO_FACE_SCALED_DISTANCE);
+            }
+
+            return (offsetX, offsetY);
         }
     }
 }
