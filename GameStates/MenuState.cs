@@ -16,8 +16,9 @@ namespace Swinburne_OOP_HD
         public void HandleInput()
         {
             if (_selectedLevel == -1)
+            {
                 _selectedLevel = _manager.Menu.HandleInput(_manager.Window);
-
+            }
             else
             {
                 _manager.Menu.Reset();

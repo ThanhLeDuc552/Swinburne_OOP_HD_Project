@@ -10,11 +10,9 @@ namespace Swinburne_OOP_HD
     {
         private Window _window;
         private LevelManager _levelManager;
-        private IGameState _currentState;
         private Menu _menu;
-        public Window Window => _window;
-        public LevelManager LevelManager => _levelManager;
-        public Menu Menu => _menu;
+
+        private IGameState _currentState;
 
         public GameStateManager(Window window)
         {
@@ -42,5 +40,9 @@ namespace Swinburne_OOP_HD
             }
             SplashKit.FreeAllSprites();
         }
+
+        public Window Window => _window;
+        public LevelManager LevelManager => _levelManager;
+        public Menu Menu => _menu;
     }
 }

@@ -14,8 +14,7 @@ namespace Swinburne_OOP_HD
         private Bitmap _background;
         private Bitmap _logo;
         private Bitmap _playButton;
-        private FireBoy _fireBoy;
-        private WaterGirl _waterGirl;
+        private (FireBoy fireBoy, WaterGirl waterGirl) _characters;
         private Rectangle _playButtonRect;
         private bool _showLevelSelect = false;
         private int _selectedLevelIndex = -1;
@@ -35,8 +34,7 @@ namespace Swinburne_OOP_HD
                 Height = _playButton.Height
             };
 
-            _fireBoy = new FireBoy();
-            _waterGirl = new WaterGirl();
+            _characters = (new FireBoy(), new WaterGirl());
             _levelManager = levelManager;
             _levelCount = CountLevels();
         }
@@ -52,10 +50,10 @@ namespace Swinburne_OOP_HD
             {
                 _background.Draw(0, 0);
                 _logo.Draw(60, 50);
-                _fireBoy.Idle.Sprite.Draw(50, 200);
-                _waterGirl.Idle.Sprite.Draw(350, 250);
-                _fireBoy.Idle.Sprite.UpdateAnimation();
-                _waterGirl.Idle.Sprite.UpdateAnimation();
+                _characters.fireBoy.Idle.Sprite.Draw(50, 200);
+                _characters.waterGirl.Idle.Sprite.Draw(350, 250);
+                _characters.fireBoy.Idle.Sprite.UpdateAnimation();
+                _characters.waterGirl.Idle.Sprite.UpdateAnimation();
                 SplashKit.DrawBitmap(_playButton, _playButtonRect.X, _playButtonRect.Y);
             }
             else
@@ -92,6 +90,7 @@ namespace Swinburne_OOP_HD
                     if (SplashKit.MouseClicked(MouseButton.LeftButton) && SplashKit.PointInRectangle(SplashKit.MousePosition(), levelRect))
                     {
                         _selectedLevelIndex = i;
+                        _characters = (null, null); // Reset characters for new level
                         return _selectedLevelIndex;
                     }
                 }
