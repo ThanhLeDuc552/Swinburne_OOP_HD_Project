@@ -15,7 +15,7 @@ namespace Swinburne_OOP_HD
             _objects = new List<T>();
         }
 
-        public IReadOnlyList<T> Objects => _objects.AsReadOnly(); // encapsulation
+        public List<T> Objects => _objects; // encapsulation
 
         public void Add(T obj)
         {
@@ -43,14 +43,10 @@ namespace Swinburne_OOP_HD
             }
         }
 
-        /// <summary>
-        /// Gets the count of objects in the manager
-        /// </summary>
+        // Gets the count of objects in the manager
         public int Count => _objects.Count;
 
-        /// <summary>
-        /// Calls Update() on all objects in the manager
-        /// </summary>
+        // Calls Update() on all objects in the manager
         public void UpdateAll()
         {
             foreach (T obj in _objects)

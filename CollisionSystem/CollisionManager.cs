@@ -14,22 +14,18 @@ namespace Swinburne_OOP_HD
             _collisionResolver = new CollisionResolver(collisionDetector);
         }
 
-        public void CheckHazardCollisions(Character character, IReadOnlyList<Hazards> hazards, ref bool gameOver) // currently violates OOP principles
+        public void CheckHazardCollisions(List<Character> characters, List<Hazards> hazards)
         {
-            foreach (Hazards hazard in hazards)
+            foreach (Character character in characters)
             {
-                if (hazard.IsCharacterInRange(character))
+                foreach (Hazards hazard in hazards)
                 {
-                    if (!hazard.CanInteract(character)) // Character is NOT immune
-                    {
-                        gameOver = true;
-                        break; // Character died
-                    }
+                    hazard.Interact(character);
                 }
             }
         }
 
-        public void CheckExitDoorInteractions(Character fireboy, Character watergirl, IReadOnlyList<ExitDoor> exitDoors, ref bool fireExitReached, ref bool waterExitReached) // currently violates OOP principles
+        public void CheckExitDoorInteractions(Character fireboy, Character watergirl, List<ExitDoor> exitDoors, Level level)
         {
             foreach (ExitDoor door in exitDoors)
             {
@@ -39,13 +35,13 @@ namespace Swinburne_OOP_HD
                     door.Interact(fireboy);
                     if (door.IsActivated)
                     {
-                        fireExitReached = true;
+                        level.FireExitReached = true;
                     }
                 }
                 else if (door.Type == "fire" && !door.IsCharacterInRange(fireboy) && door.IsActivated)
                 {
                     door.Interact(fireboy); // This will deactivate the door
-                    fireExitReached = false;
+                    level.FireExitReached = false;
                 }
 
                 // Check WaterGirl interactions
@@ -54,76 +50,80 @@ namespace Swinburne_OOP_HD
                     door.Interact(watergirl);
                     if (door.IsActivated)
                     {
-                        waterExitReached = true;
+                        level.WaterExitReached = true;
                     }
                 }
                 else if (door.Type == "water" && !door.IsCharacterInRange(watergirl) && door.IsActivated)
                 {
                     door.Interact(watergirl); // This will deactivate the door
-                    waterExitReached = false;
+                    level.WaterExitReached = false;
                 }
             }
         }
 
-        public List<Diamond> CheckDiamondInteraction(Character character, IReadOnlyList<Diamond> diamonds)
+        public List<Diamond> CheckDiamondInteraction(List<Character> characters, List<Diamond> diamonds)
         {
-            List<Diamond> diamondsToRemove = new List<Diamond>();
-            
-            foreach (Diamond diamond in diamonds) 
+            List<Diamond> collectedDiamonds = new List<Diamond>();
+            foreach (Character character in characters)
             {
-                if (diamond.IsCharacterInRange(character)) 
+                foreach (Diamond diamond in diamonds)
                 {
-                    if (diamond.CanInteract(character)) 
+                    diamond.Interact(character);
+                    if (diamond.IsCollected)
                     {
-                        diamondsToRemove.Add(diamond); // Mark the actual diamond object for removal
+                        collectedDiamonds.Add(diamond);
                     }
                 }
             }
-
-            return diamondsToRemove;
+            return collectedDiamonds;
         }
 
-        public void CheckPlatformInteractions(Character character, IReadOnlyList<Platform> platforms, PhysicsSystem physicsSystem) 
+        public void CheckPlatformInteractions(List<Character> characters, List<Platform> platforms, PhysicsSystem physicsSystem) 
         {
-            foreach (Platform platform in platforms)
+            foreach (Character character in characters)
             {
-                // Use the improved CollisionResolver instead of PhysicsExtensions
-                _collisionResolver.ResolveCollision(character, platform);
-            }
-        }
-
-        public void CheckLeverInteractions(Character character, IReadOnlyList<Lever> levers, IReadOnlyList<Platform> platforms) 
-        {
-            foreach (Lever lever in levers) 
-            {
-                if (lever.IsCharacterInRange(character))
-                {
-                    lever.Interact(character);
-                }
-
-                else if (lever.Timer.IsStarted && lever.Timer.Ticks > 10000u)
-                {
-                    lever.ResetTimer();
-                }
-
                 foreach (Platform platform in platforms)
                 {
-                    if (platform.ActivatorClass == "Lever" && platform.Type == lever.Type)
+                    _collisionResolver.ResolveCollision(character, platform);
+                }
+            }
+        }
+
+        public void CheckLeverInteractions(List<Character> characters, List<Lever> levers, List<Platform> platforms) 
+        {
+            foreach (Character character in characters)
+            {
+                foreach (Lever lever in levers)
+                {
+                    if (lever.IsCharacterInRange(character))
                     {
-                        if (lever.IsActivated)
+                        lever.Interact(character);
+                    }
+
+                    else if (lever.Timer.IsStarted && lever.Timer.Ticks > 10000u)
+                    {
+                        lever.ResetTimer();
+                    }
+
+                    foreach (Platform platform in platforms)
+                    {
+                        if (platform.ActivatorClass == "Lever" && platform.Type == lever.Type)
                         {
-                            platform.IsActivated = true;
-                        }
-                        else
-                        {
-                            platform.IsActivated = false;
+                            if (lever.IsActivated)
+                            {
+                                platform.IsActivated = true;
+                            }
+                            else
+                            {
+                                platform.IsActivated = false;
+                            }
                         }
                     }
                 }
             }
         }
 
-        public void CheckButtonInteractions(IReadOnlyList<Character> characters, IReadOnlyList<Button> buttons, IReadOnlyList<Platform> platforms)
+        public void CheckButtonInteractions(List<Character> characters, List<Button> buttons, List<Platform> platforms)
         {
             foreach (Button button in buttons)
             {

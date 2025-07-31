@@ -6,12 +6,15 @@ namespace Swinburne_OOP_HD
     {
         private ActionResource _diamond;
         private bool _isSpecial;
+        private bool _isCollected;
 
         public Diamond(string name, string type, string spriteFilePath, Point2D position, bool isSpecial = false)
         {
             Type = type;
             Name = name;
             _isSpecial = isSpecial;
+            _isCollected = false; // Initialize as not collected
+
             InitializeDiamondResources(spriteFilePath);
             Position = new Point2D()
             {
@@ -42,7 +45,10 @@ namespace Swinburne_OOP_HD
 
         public override void Interact(Character character)
         {
-            // do nothing
+            if (IsCharacterInRange(character) && CanInteract(character))
+            {
+                _isCollected = true;
+            }
         }
 
         public override bool CanInteract(Character character)
@@ -74,10 +80,9 @@ namespace Swinburne_OOP_HD
             );
         }
 
-
-        public bool IsSpecial
+        public bool IsCollected
         {
-            get { return _isSpecial; }
+            get { return _isCollected; }
         }
     }
 }

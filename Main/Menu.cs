@@ -90,7 +90,6 @@ namespace Swinburne_OOP_HD
                     if (SplashKit.MouseClicked(MouseButton.LeftButton) && SplashKit.PointInRectangle(SplashKit.MousePosition(), levelRect))
                     {
                         _selectedLevelIndex = i;
-                        _characters = (null, null); // Reset characters for new level
                         return _selectedLevelIndex;
                     }
                 }

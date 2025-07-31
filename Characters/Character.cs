@@ -27,6 +27,9 @@ namespace Swinburne_OOP_HD
         private double _halfWidth;
         private double _halfHeight;
 
+        // In game properties
+        private bool _isDead;
+
         public Character(string bundleFile, string type, string name)
         {
             base.Position = new Vector2D(); // The original position (Position is the center of the character, which used for AABB)
@@ -35,6 +38,7 @@ namespace Swinburne_OOP_HD
             Velocity = new Vector2D() { X = 0, Y = 0 };
             IsGrounded = false;
             _canJump = true;
+            _isDead = false;
 
             SplashKit.LoadResourceBundle(name, bundleFile);
             InitActions(name);
@@ -160,6 +164,12 @@ namespace Swinburne_OOP_HD
         public double HairHeight 
         {
             get { return _hairHeight; }
+        }
+
+        public bool IsDead
+        {
+            get { return _isDead; }
+            set { _isDead = value; }
         }
 
         // Physics properties for external access

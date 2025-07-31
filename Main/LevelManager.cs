@@ -81,9 +81,7 @@ namespace Swinburne_OOP_HD
 
         public void ClearLevelResource(Level level)
         {
-            // Implement resource cleanup for a level
-            // For example: free bitmaps, clear lists, etc.
-            // This is a placeholder for actual resource management
+            level.Dispose();
         }
 
         public List<Level> Levels

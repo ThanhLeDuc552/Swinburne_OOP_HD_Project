@@ -104,6 +104,7 @@ namespace Swinburne_OOP_HD
                     _doorInteracted.Sprite.StartAnimation("Interacted");
                 }
             }
+
             else if (_interacted && !IsCharacterInRange(character))
             {
                 if (character.Type == Type)
@@ -124,11 +125,6 @@ namespace Swinburne_OOP_HD
                 _doorWidth,
                 _doorHeight
             );
-        }
-
-        public override void Update()
-        {
-            // Override in derived classes if needed for specific door update logic
         }
     }
 } 

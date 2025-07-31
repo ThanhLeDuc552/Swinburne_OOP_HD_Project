@@ -39,7 +39,13 @@ namespace Swinburne_OOP_HD
 
         public override void Interact(Character character)
         {
-            // do nothing
+            if (IsCharacterInRange(character))
+            {
+                if (!CanInteract(character))
+                {
+                    character.IsDead = true;
+                }
+            }
         }
 
         public override bool CanInteract(Character character)

@@ -192,8 +192,11 @@ namespace Swinburne_OOP_HD
             var boxManager = new ObjectManager<Box>();
 
             // Add initial characters
-            characterManager.Add(new FireBoy());
-            characterManager.Add(new WaterGirl());
+            if (characterManager.Objects.Count == 0)
+            {
+                characterManager.Add(new FireBoy());
+                characterManager.Add(new WaterGirl());
+            }
 
             // Create composite manager
             var compositeManager = new CompositeObjectManager();
