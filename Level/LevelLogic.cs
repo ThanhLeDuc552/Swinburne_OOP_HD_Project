@@ -153,7 +153,7 @@ namespace Swinburne_OOP_HD
 
         private void UpdateCharacter(Level level)
         {
-            foreach (Character character in _managers.Characters.Objects)
+            foreach (Character character  in _managers.Characters.Objects)
             {
                 character.Update();
                 _physicsSystem.UpdateCharacter(character, level);

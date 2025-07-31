@@ -58,6 +58,11 @@ namespace Swinburne_OOP_HD
 
         public void Dispose()
         {
+            foreach (Character character in Characters.Objects)
+            {
+                character.IsDead = false;
+            }
+
             Hazards?.Clear();
             ExitDoors?.Clear();
             Diamonds?.Clear();
