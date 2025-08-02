@@ -20,6 +20,7 @@ namespace Swinburne_OOP_HD
         private int _selectedLevelIndex = -1;
         private LevelManager _levelManager;
         private int _levelCount; // Change as needed
+        private int _hoveredLevelIndex = -1;
 
         public Menu(LevelManager levelManager)
         {
@@ -75,6 +76,9 @@ namespace Swinburne_OOP_HD
         {
             if (!_showLevelSelect)
             {
+                // play background music
+                SoundCollections.Instance.PlayBackgroundMusic();
+                // Handle play button click
                 if (SplashKit.MouseClicked(MouseButton.LeftButton) && SplashKit.PointInRectangle(SplashKit.MousePosition(), _playButtonRect))
                 {
                     _showLevelSelect = true;
@@ -82,16 +86,31 @@ namespace Swinburne_OOP_HD
             }
             else
             {
+                SoundCollections.Instance.StopBackgroundMusic();
                 // Handle level selection
+                bool hoveredAny = false;
                 for (int i = 0; i < _levelCount; i++)
                 {
                     int y = 120 + i * 40;
                     Rectangle levelRect = new Rectangle() { X = 180, Y = y, Width = 300, Height = 30 };
-                    if (SplashKit.MouseClicked(MouseButton.LeftButton) && SplashKit.PointInRectangle(SplashKit.MousePosition(), levelRect))
+                    if (SplashKit.PointInRectangle(SplashKit.MousePosition(), levelRect))
                     {
-                        _selectedLevelIndex = i;
-                        return _selectedLevelIndex;
+                        hoveredAny = true;
+                        if (_hoveredLevelIndex != i)
+                        {
+                            SoundCollections.Instance.PlaySound("Navigation");
+                            _hoveredLevelIndex = i;
+                        }
+                        if (SplashKit.MouseClicked(MouseButton.LeftButton))
+                        {
+                            _selectedLevelIndex = i;
+                            return i;
+                        }
                     }
+                }
+                if (!hoveredAny)
+                {
+                    _hoveredLevelIndex = -1;
                 }
             }
             return -1;
@@ -101,6 +120,7 @@ namespace Swinburne_OOP_HD
         {
             _showLevelSelect = false;
             _selectedLevelIndex = -1;
+            _hoveredLevelIndex = -1;
         }
     }
 }

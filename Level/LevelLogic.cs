@@ -22,7 +22,7 @@ namespace Swinburne_OOP_HD
         private CollisionManager _collisionManager;
 
         // Game object managers collection
-        private GameObjectManagerCollection _managers;
+        private GameObjectManager _managers;
 
         private LevelLogic()
         {
@@ -36,7 +36,7 @@ namespace Swinburne_OOP_HD
             _physicsSystem = new PhysicsSystem();
             _collisionManager = new CollisionManager();
             _levelTimer = SplashKit.CreateTimer("NewTimer");
-            _managers = new GameObjectManagerCollection();
+            _managers = new GameObjectManager();
         }
 
         public static LevelLogic Instance
@@ -95,7 +95,7 @@ namespace Swinburne_OOP_HD
             _levelTimer?.Reset();
         }
         
-        public GameObjectManagerCollection Managers
+        public GameObjectManager Managers
         {
             get { return _managers; }
         }

@@ -2,7 +2,7 @@ using System;
 
 namespace Swinburne_OOP_HD
 {
-    public class GameObjectManagerCollection : IDisposable
+    public class GameObjectManager : IDisposable
     {
         public ObjectManager<Character> Characters { get; private set; }
         public ObjectManager<Hazards> Hazards { get; private set; }
@@ -14,7 +14,7 @@ namespace Swinburne_OOP_HD
         public ObjectManager<Box> Boxes { get; private set; }
         public CompositeObjectManager Composite { get; private set; }
 
-        public GameObjectManagerCollection()
+        public GameObjectManager()
         {
             InitializeManagers();
         }

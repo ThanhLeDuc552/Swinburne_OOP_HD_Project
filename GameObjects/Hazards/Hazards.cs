@@ -43,6 +43,7 @@ namespace Swinburne_OOP_HD
             {
                 if (!CanInteract(character))
                 {
+                    SoundCollections.Instance.PlaySound("Death");
                     character.IsDead = true;
                 }
             }

@@ -47,6 +47,7 @@ namespace Swinburne_OOP_HD
         {
             if (IsCharacterInRange(character) && CanInteract(character))
             {
+                SoundCollections.Instance.PlaySound("DiamondCollect");
                 _isCollected = true;
             }
         }

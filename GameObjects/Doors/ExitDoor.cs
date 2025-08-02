@@ -101,6 +101,7 @@ namespace Swinburne_OOP_HD
                     _interacted = true;
                     IsActivated = true;
                     // Trigger the door opening animation
+                    SoundCollections.Instance.PlaySound("ExitReached");
                     _doorInteracted.Sprite.StartAnimation("Interacted");
                 }
             }

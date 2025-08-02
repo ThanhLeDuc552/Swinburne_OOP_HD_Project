@@ -58,12 +58,14 @@ namespace Swinburne_OOP_HD
             // If timer hasn't started, start it and toggle lever
             if (!_timer.IsStarted) 
             {
+                SoundCollections.Instance.PlaySound("LeverToggle");
                 _timer.Start();
                 ToggleLever();
             }
             // If timer has exceeded threshold, reset and toggle lever
             else if (_timer.Ticks > 10000u) 
             {
+                SoundCollections.Instance.PlaySound("LeverToggle");
                 _timer.Reset();
                 ToggleLever();
             }
